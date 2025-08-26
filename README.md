@@ -2,7 +2,7 @@
 output: github_document
 ---
 
-# educabr: Access Historical Statistics on Brazilian formal Education <img align="right" src="man/figures/logo-gemini.png?raw=true" alt="logo" width="180">
+# educabr: Access Historical Statistics on Brazilian Education <img align="right" src="man/figures/logo-gemini.png.png?raw=true" alt="logo" width="180">
 
 [![License: GPL-3](https://img.shields.io/badge/License-GPL--3-blue.svg)](LICENSE)
 
