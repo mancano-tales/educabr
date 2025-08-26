@@ -40,5 +40,5 @@
 #' @return data.frame
 #' @export
 get_rates_enrollment_primary <- function() {
-  data_rates_enrollment_primary
+  data_rates_enrollment_primary <- data_rates_enrollment_primary
 }
