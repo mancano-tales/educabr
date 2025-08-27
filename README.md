@@ -20,7 +20,7 @@ You can install the development version directly from GitHub:
 
 ```{r, eval = FALSE}
 # Instale usando devtools
-if (!require(remotes)) install.packages("devtools")
+if (!require(devtools)) install.packages("devtools")
 devtools::install_github("mancano-tales/educabr")
 ```
 
@@ -54,6 +54,7 @@ Se você encontrar algum problema ou tiver sugestões, abra uma *issue* no repos
 **EN:**
 Contributions are welcome!
 If you find any issues or have suggestions, please open an *issue* in the repository.
+
 ---
 ## Licença | License
 **PT-BR:**
