@@ -2,10 +2,18 @@ Package: educabr
 Title: Access Historical Statistics on Brazilian Education
 Version: 0.0.0.9000
 Authors@R: 
-    person("Tales", "Mancano",
+    person("Tales", "Mançano",
            email = "mancano.tales@usp.br",
            role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-5923-9743"))
+    person("Tales", "Mancano",
+           email = "victorgalcantara@usp.br",
+           role = c("aut"),
+           comment = c(ORCID = "0000-0001-8846-9652"))
+    person("Artur", "Damião",
+           email = "artur.cardoso@usp.br",
+           role = c("aut"),
+           comment = c(ORCID = "0000-0002-8628-1653"))
 Description: Pacote em construção. Pretendemos fornecer dados tratados de múltiplas 
     fontes, contemplando estatísticas históricas centrais da educação formal no Brasil, 
     como proporção de matrículas, número de escolas, dados de fluxo escolar e indicadores 
