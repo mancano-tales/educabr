@@ -1,16 +1,12 @@
 
 # educabr: Access Historical Statistics on Brazilian Education <img align="right" src="man/figures/logo-gemini.png.png?raw=true" alt="logo" width="180">
 
-
 [![License: GPL-3](https://img.shields.io/badge/License-GPL--3-blue.svg)](LICENSE)
 
-
 **PT-BR:**  
-
 **educabr** é um pacote em R que fornece funções para carregar, manipular e analisar dados sobre educação no Brasil, começando pelo ensino primário.  
 
 **EN:**  
-
 **educabr** is an R package that provides functions to load, manipulate, and analyze data on education in Brazil, starting with primary education.  
 
 ---
@@ -22,11 +18,11 @@ Você pode instalar a versão de desenvolvimento diretamente do GitHub:
 **EN:**
 You can install the development version directly from GitHub:
 
-```{r}
-install.packages("devtools")
+```{r, eval = FALSE}
+# Instale usando devtools
+if (!require(remotes)) install.packages("devtools")
 devtools::install_github("mancano-tales/educabr")
 ```
-
 
 ---
 ## Exemplo de uso | Example
@@ -67,13 +63,3 @@ Consulte o arquivo [LICENSE](LICENSE) para mais detalhes.
 **EN:**
 This package is released under the **GPL-3** license.
 See the [LICENSE](LICENSE) file for more details.
-
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  fig.path = "man/figures/README-",
-  out.width = "100%"
-)
-```
-
