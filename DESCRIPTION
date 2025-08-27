@@ -4,7 +4,7 @@ Version: 0.0.0.9000
 Authors@R: 
     person("Tales", "Mançano",
            email = "mancano.tales@usp.br",
-           role = c("aut", "cre", ),
+           role = c("aut", "cre" ),
            comment = c(ORCID = "0000-0001-5923-9743"))
     person("Tales", "Mancano",
            email = "victorgalcantara@usp.br",
@@ -19,7 +19,7 @@ Description: Pacote em construção. Pretendemos fornecer dados tratados de múl
     como proporção de matrículas, número de escolas, dados de fluxo escolar e indicadores 
     de qualidade educacional. Os dados são organizados de forma limpa e padronizada 
     para facilitar análises e visualizações.
-License: `use_gpl3_license()`
+License: GPL-3
 URL: https://github.com/mancano-tales/educabr,
     https://mancano-tales.github.io/educabr/
 BugReports: https://github.com/mancano-tales/educabr/issues
