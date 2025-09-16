@@ -7,7 +7,7 @@
 #' en: The data frame `data_rates_enrollment_primary` has X rows and Y variables:
 #' pt: O data frame `data_rates_enrollment_primary` possui X linhas e Y variáveis:
 #' \describe{
-#'   \item{year}{en: Year of observation / pt: Ano de referência}
+#'   \item{year}{en: Year of observation / pt: Ano da observação}
 #'   \item{enrollment_rate_paglayan}{en: Enrollment rate in primary education, % of population 5-14 yrs (Paglayan) / pt: Taxa de matrícula na educação primária, % da população 5-14 anos (Paglayan)}
 #'   \item{enrollment_rate_pnad}{en: Enrollment rate in primary education, % of population 5-14 yrs (PNAD, IBGE) / pt: Taxa de matrícula na educação primária, % da população 5-14 anos (PNAD, IBGE)}
 #'   \item{population}{en: Population of school-age children / pt: População em idade escolar}

@@ -6,5 +6,6 @@
 #' @rdname importar_lee_lee2016
 #' @export
 LeeLee2016 <- function() {
-  LeeLee2016 <- readRDS("data/LeeLee_v1.rds")
+  LeeLee2016 <- readRDS("data/LeeLee_v1.rda")
 }
+ L
