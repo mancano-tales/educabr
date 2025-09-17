@@ -39,9 +39,9 @@ head(data)
 ---
 ## Funções disponíveis | Available functions
 
-* `educabr()`:
+* `educabr)`:
 
-  **PT-BR:** carrega dados de matrícula no Brasil.
+  **PT-BR:** carrega dados de matrícula no Brasil de diferentes fontes.
   **EN:** loads data on enrollment in Brazil.
 
 ---
