@@ -1,13 +1,13 @@
 
-# educabr: Access Historical Statistics on Brazilian Education <img align="right" src="man/figures/logo-gemini.png.png?raw=true" alt="logo" width="180">
+# educabr: Access Statistics on Brazilian Education <img align="right" src="man/figures/logo-gemini.png.png?raw=true" alt="logo" width="180">
 
 [![License: GPL-3](https://img.shields.io/badge/License-GPL--3-blue.svg)](LICENSE)
 
 **PT-BR:**  
-**educabr** é um pacote em R que fornece funções para carregar, manipular e analisar dados sobre educação no Brasil, começando pelo ensino primário.  
+**educabr** é um pacote em R que fornece funções para carregar, manipular e analisar dados sobre educação no Brasil.  
 
 **EN:**  
-**educabr** is an R package that provides functions to load, manipulate, and analyze data on education in Brazil, starting with primary education.  
+**educabr** is an R package that provides functions to load, manipulate, and analyze data on education in Brazil.  
 
 ---
 ## Instalação | Installation
@@ -25,25 +25,24 @@ devtools::install_github("mancano-tales/educabr")
 ```
 
 ---
+
 ## Exemplo de uso | Example
 
 ```{r}
 library(educabr)
-
-# PT-BR: Exemplo: carregar taxas de matrícula no ensino primário
-# EN: Example: load enrollment rates in primary education
-
-data <- get_rates_enrollment_primary()
+# PT-BR: Exemplo: carrega dados de matrícula no Brasil
+# EN: Example: loads data on enrollment in Brazil
+data <- educabr()
 head(data)
 ```
 
 ---
 ## Funções disponíveis | Available functions
 
-* `get_rates_enrollment_primary()`:
+* `educabr()`:
 
-  **PT-BR:** carrega dados de taxas de matrícula no ensino primário no Brasil iniciando em 1857.
-  **EN:** loads data on primary school enrollment rates in Brazil starting in 1857.
+  **PT-BR:** carrega dados de matrícula no Brasil.
+  **EN:** loads data on enrollment in Brazil.
 
 ---
 ## Contribuindo | Contributing
