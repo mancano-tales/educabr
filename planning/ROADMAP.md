@@ -7,14 +7,17 @@ changes worth a version bump; granular tasks live in the topic files
 ## Current: 0.1.0 — first public release (2026-05-18)
 
 Initial set of harmonised long-run series (Kang/FGV enrollment,
-Walter & Kang schooling, multi-source tertiary), public API
-(`get_enrollment`, `get_schooling`, `educabr_cite`,
-`run_dashboard`), bundled Shiny dashboard, pkgdown site.
+Walter & Kang schooling, multi-source tertiary, Kang & Menetrier
+expenditure, Kang/Paese/Felix grade progression, Lee & Lee comparative
+attainment), public API (`get_enrollment`, `get_schooling`,
+`get_expenditure`, `get_progression`, `get_attainment`, `educabr_cite`,
+`list_sources`, `run_dashboard`), bundled Shiny dashboard, pkgdown site.
 
 - [x] R CMD check --as-cran: 0/0/0
 - [x] Live dashboard on shinyapps.io
 - [x] pkgdown site live at https://mancano-tales.github.io/educabr2/
 - [x] 37 tests passing
+- [x] Lee & Lee (2016) cross-country attainment dataset + `get_attainment()`
 
 ## v0.2 — first CRAN submission (target: 2026-06)
 
