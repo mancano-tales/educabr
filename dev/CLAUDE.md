@@ -37,7 +37,7 @@ shiny::runApp("inst/dashboard")
 
 ### Public API
 
-Four user-facing data functions expose the internal datasets, plus
+Six user-facing data functions expose the internal datasets, plus
 citation/discovery helpers: -
 [`get_enrollment()`](https://mancano-tales.github.io/educabr2/dev/reference/get_enrollment.md)
 — school enrollment (counts and gross rates), backed by
@@ -50,6 +50,9 @@ citation/discovery helpers: -
 [`get_progression()`](https://mancano-tales.github.io/educabr2/dev/reference/get_progression.md)
 — grade-progression indicators (GDR6), backed by
 `progression_kang_fgv` -
+[`get_attainment()`](https://mancano-tales.github.io/educabr2/dev/reference/get_attainment.md)
+— comparative international attainment (share completing at least a
+level), backed by `lee_lee_2016` -
 [`educabr_cite()`](https://mancano-tales.github.io/educabr2/dev/reference/educabr_cite.md)
 — builds `bibentry`/APA/BibTeX citations for any source key from
 `source` column values -
@@ -97,13 +100,14 @@ contributing dataset names.
 
 ### Themes
 
-Five datasets are bundled, across four themes: - **enrollment** —
+Six datasets are bundled, across five themes: - **enrollment** —
 `enrollment_kang_fgv` (BR+UF, 1871-2010, Kang/FGV),
 `enrollment_tertiary` (BR, 1907-2024, multi-source) - **schooling** —
 `schooling_kang_fgv` (BR+region+UF, 1925-2015, Walter & Kang) -
 **expenditure** — `expenditure_kang_fgv` (BR, 1933-2010, Kang &
 Menetrier) - **progression** — `progression_kang_fgv` (BR+20 UFs,
-1955-2010, Kang/Paese/Felix)
+1955-2010, Kang/Paese/Felix) - **attainment** — `lee_lee_2016` (111
+countries, 1870-2010, Lee & Lee)
 
 ### ETL pipeline (`data-raw/`)
 
