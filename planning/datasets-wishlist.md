@@ -92,13 +92,13 @@ For each candidate, the format is:
 - **Ingestion**: bundled `.rda`.
 - **Status**: source documented, data not ingested.
 
-### Lee & Lee (2016) — cross-country schooling
+### Lee & Lee (2016) — cross-country schooling ✅ SHIPPED
 
 - **Adds**: international comparators for mean years of schooling.
 - **License**: research use; check redistribution terms.
 - **Ingestion**: bundled `.rda` (small dataset).
-- **Status**: not-started. Probably out of scope for a Brazil-focused
-  package, but useful for a vignette comparing Brazil to peers.
+- **Status**: **shipped** in v0.1.0.9000 as `lee_lee_2016` dataset,
+  exposed via `get_attainment()`.
 
 ### FNDE / FUNDEB — education funding
 

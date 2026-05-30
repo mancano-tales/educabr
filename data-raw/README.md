@@ -14,13 +14,11 @@ data-raw/
 ├── 01_build_<name>.R     # one build script per dataset
 ├── 02_build_<name>.R
 ├── ...
-├── 99_zenodo_release.R   # packages raw + processed for Zenodo release (M4)
-├── sources/              # raw files, one subdirectory per source key
-│   ├── paglayan_2022/
-│   ├── pnad_ibge/
-│   ├── anuario_ibge/
-│   └── ...
-└── schemas/              # optional per-dataset validation specs (pointblank)
+├── scripts/              # helper scripts (e.g. inspect_xlsx.py)
+└── sources/              # raw files, one subdirectory per source key
+    ├── kang_fgv_ibre_2023/
+    ├── tertiary_multisource/
+    └── ...
 ```
 
 The `source` keys under `sources/` must match keys declared in

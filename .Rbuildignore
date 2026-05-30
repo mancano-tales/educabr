@@ -22,3 +22,4 @@
 ^planning$
 ^CLAUDE\.md$
 ^rename_package\.py$
+^rename_repo_refs\.py$
