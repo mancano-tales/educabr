@@ -107,7 +107,7 @@ news:
     href: news/index.html
 
 development:
-  mode: auto
+  mode: release
 
 footer:
   structure:
