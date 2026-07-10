@@ -3,5 +3,8 @@
 utils::globalVariables(c(
   "enrollment_kang_fgv",
   "enrollment_tertiary",
-  "schooling_kang_fgv"
+  "schooling_kang_fgv",
+  "expenditure_kang_fgv",
+  "progression_kang_fgv",
+  "lee_lee_2016"
 ))

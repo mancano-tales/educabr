@@ -3,7 +3,7 @@
 \docType{data}
 \name{schooling_kang_fgv}
 \alias{schooling_kang_fgv}
-\title{Mean years of schooling — Walter & Kang 2023 compilation}
+\title{Mean years of schooling — Walter & Kang 2024 compilation}
 \format{
 A tibble with approximately 2 300 rows and 12 columns:
 \describe{
@@ -31,8 +31,8 @@ population.}
 }
 }
 \source{
-Walter, J., & Kang, T. H. (2023). A new dataset of average
-years of schooling in Brazil, 1925-2015. FGV-IBRE working paper.
+Walter, J., & Kang, T. H. (2024). A new dataset of average
+years of schooling in Brazil, 1925-2015. Economic History of Developing Regions, 39(3), 307-336.
 ETL script: \verb{data-raw/02_build_schooling_kang_fgv.R}.
 }
 \usage{
