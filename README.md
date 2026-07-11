@@ -20,7 +20,7 @@ provenance.
 **🇧🇷** `educabr2` reúne séries históricas tratadas sobre educação
 formal no Brasil — matrículas, anos de estudo, atingimento educacional
 — em um único schema *tidy*, com proveniência explícita. Veja a
-[vinheta em português](https://mancano-tales.github.io/educabr2/dev/articles/introducao-pt.html).
+[vinheta em português](https://mancano-tales.github.io/educabr2/articles/introducao-pt.html).
 
 ---
 
@@ -28,9 +28,9 @@ formal no Brasil — matrículas, anos de estudo, atingimento educacional
 
 - 📖 **[Reference site](https://mancano-tales.github.io/educabr2/)** —
   function reference, articles, news
-- 📊 **[Live dashboard](https://qx3hly-tales-man0ano.shinyapps.io/educabr/)**
+- 📊 **[Live dashboard](https://qx3hly-tales-man0ano.shinyapps.io/educabr2/)**
   — interactive multi-source comparison on shinyapps.io
-- 📝 **[Get started](https://mancano-tales.github.io/educabr2/dev/articles/introduction.html)**
+- 📝 **[Get started](https://mancano-tales.github.io/educabr2/articles/introduction.html)**
   — 10-minute tour of the API
 - 🐛 **[Issues](https://github.com/mancano-tales/educabr2/issues)**
 
@@ -170,7 +170,7 @@ src[grepl("UF", src$geo), c("key", "year_start", "year_end")]
 educabr2::run_dashboard()
 ```
 
-Five navbar tabs:
+Six navbar tabs:
 
 * **Enrollment** — Kang/FGV series by stage, year, race
 * **Tertiary Education** — multi-source comparison 1907–2024
@@ -185,10 +185,15 @@ Five navbar tabs:
 * **Grade Progression** — Kang/Paese/Felix (2021) GDR6 progression
   ratio (enrollment in grades 4-6 / grades 1-3 of the old eight-year
   primary system), BR and 20 UFs, 1955–2010
+* **International Comparison** — Lee & Lee (2016) attainment shares
+  (primary/secondary/tertiary completed, population 15–64), 111
+  countries, 1870–2010, with sex breakdowns — Brazil against the
+  world record in the same interface
 
 Every chart has a "View R code" button that prints a self-contained
-snippet (educabr2 + ggplot2 + plotly) you can paste into RStudio to
-reproduce the interactive chart locally.
+snippet (educabr2 + ggplot2 + plotly, styled with the package's own
+`theme_educabr()` / Okabe-Ito scales / `scale_x_year_educabr()`) you
+can paste into RStudio to reproduce the interactive chart locally.
 
 ---
 
@@ -208,6 +213,20 @@ Six internal datasets back the public functions:
 End users should call the `get_*()` functions. The datasets are
 exposed for inspection but the public API normalises schema
 differences, applies per-source filters and translates labels.
+
+**Deduplication hierarchy.** When the same year and sector are
+covered by multiple sources, the recommended order of precedence is:
+INEP CENSUP microdata (2009–2024) → INEP statistical synopses
+(1995–2008) → Kang, Paese & Felix (1990–1994) → Maduro Junior →
+Durham → IBGE *Estatísticas do Século XX*. The most disaggregated
+and official source available always wins; all competing estimates
+remain in the panel for auditing.
+
+**Validation.** Overlapping windows are preserved deliberately so
+the sources can be checked against each other: in 1995, for example,
+the INEP synopsis, Durham (2005) and Kang et al. (2021) all report
+exactly 1,759,703 tertiary enrollments — a perfect triangulation of
+the academic reconstructions against the official record.
 
 ---
 
@@ -289,7 +308,7 @@ and historical series**: single indicators compiled across multiple
 sources over long time spans.
 
 Design inspirations:
-[`geobr`](https://github.com/ipeaGIT/geobr) (coherent function family),
+[`geobr`](https://github.com/ipea/geobr) (coherent function family),
 [`PNADCperiods`](https://cran.r-project.org/package=PNADCperiods)
 (embedded dashboard + methodological delivery), and the
 [`brverse`](https://github.com/ipea/brverse) ecosystem.

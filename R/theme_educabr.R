@@ -90,7 +90,8 @@ theme_educabr <- function(base_size = 9.5, base_family = "serif", plot_titles = 
     }
   }
 
-  theme_obj <- ggplot2::theme_minimal(base_size = base_size, base_family = base_family) %+replace%
+  theme_obj <- ggplot2::`%+replace%`(
+    ggplot2::theme_minimal(base_size = base_size, base_family = base_family),
     ggplot2::theme(
       plot.title         = ggplot2::element_text(face = "bold",
                                                  size = base_size + 1.5,
@@ -116,6 +117,7 @@ theme_educabr <- function(base_size = 9.5, base_family = "serif", plot_titles = 
       legend.title       = ggplot2::element_text(size = base_size - 1, face = "bold"),
       plot.margin        = ggplot2::margin(8, 8, 8, 8)
     )
+  )
 
   # Strip title, subtitle, and caption if plot_titles is FALSE
   if (!plot_titles) {

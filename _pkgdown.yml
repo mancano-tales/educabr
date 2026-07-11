@@ -30,7 +30,7 @@ home:
     provenance. Includes a bundled Shiny dashboard.
   links:
   - text: Live dashboard (shinyapps.io)
-    href: https://qx3hly-tales-man0ano.shinyapps.io/educabr/
+    href: https://qx3hly-tales-man0ano.shinyapps.io/educabr2/
   - text: Source on GitHub
     href: https://github.com/mancano-tales/educabr2
   - text: Report a bug
@@ -46,7 +46,7 @@ navbar:
       href: articles/introduction.html
     dashboard:
       icon: fa-chart-line
-      href: https://qx3hly-tales-man0ano.shinyapps.io/educabr/
+      href: https://qx3hly-tales-man0ano.shinyapps.io/educabr2/
       aria-label: Live dashboard
 
 reference:
@@ -70,10 +70,20 @@ reference:
   - list_sources
   - educabr_cite
 
+- title: Visualization
+  desc: >
+    Consistent, colorblind-safe plotting components in the style of
+    Healy's *Data Visualization*: a ggplot2 theme, Okabe-Ito colour
+    scales, and a year axis designed for century-long historical series.
+  contents:
+  - theme_educabr
+  - scale_educabr
+  - scale_x_year_educabr
+
 - title: Dashboard
   desc: >
     Launch the bundled Shiny dashboard. A read-only deployment is also
-    [hosted on shinyapps.io](https://qx3hly-tales-man0ano.shinyapps.io/educabr/).
+    [hosted on shinyapps.io](https://qx3hly-tales-man0ano.shinyapps.io/educabr2/).
   contents:
   - run_dashboard
 
@@ -100,6 +110,7 @@ articles:
   contents:
   - "introduction"
   - "introducao-pt"
+  - "visualization"
 
 news:
   releases:

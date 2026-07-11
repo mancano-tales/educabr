@@ -35,6 +35,7 @@ Depends:
     R (>= 4.1)
 Imports:
     cli,
+    ggplot2,
     rlang,
     tibble,
     yaml
@@ -43,7 +44,6 @@ Suggests:
     countrycode,
     dplyr,
     DT,
-    ggplot2,
     haven,
     knitr,
     plotly,
@@ -52,6 +52,8 @@ Suggests:
     rmarkdown,
     scales,
     shiny,
+    showtext,
+    sysfonts,
     testthat (>= 3.0.0),
     tidyr,
     usethis

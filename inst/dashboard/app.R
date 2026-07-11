@@ -732,9 +732,23 @@ ui <- bslib::page_navbar(
              tags$code("educabr2::get_schooling()"), ", ",
              tags$code("educabr2::get_expenditure()"), ", ",
              tags$code("educabr2::get_progression()"), " and ",
-             tags$code("educabr2::get_attainment()"), "."),
+             tags$code("educabr2::get_attainment()"),
+             ". Discover and cite the underlying compilations with ",
+             tags$code("educabr2::list_sources()"), " and ",
+             tags$code("educabr2::educabr_cite()"), "."),
+      tags$p("Every chart in this dashboard (and every \"View R code\"",
+             " snippet) uses the package's own visualization system: ",
+             tags$code("theme_educabr()"),
+             ", the colorblind-safe Okabe-Ito scales (",
+             tags$code("scale_colour_educabr()"),
+             ") and the historical year axis ",
+             tags$code("scale_x_year_educabr()"),
+             " — designed after Kieran Healy's ",
+             tags$em("Data Visualization"), "."),
       tags$p(tags$a(href = "https://github.com/mancano-tales/educabr2",
-                    "GitHub repository", target = "_blank"))
+                    "GitHub repository", target = "_blank"), " · ",
+             tags$a(href = "https://mancano-tales.github.io/educabr2/",
+                    "Documentation site", target = "_blank"))
     )
   )
 )

@@ -5,6 +5,27 @@ grade-progression). No breaking changes to existing `get_*()`
 signatures or to `enrollment_kang_fgv` / `schooling_kang_fgv`
 contents.
 
+## CI and documentation convergence (2026-07-11, second round)
+
+* Fixed the failing CI: `showtext` and `sysfonts` (used conditionally
+  by `theme_educabr()`) are now declared in Suggests; `ggplot2` was
+  promoted from Suggests to Imports (the visualization components are
+  public API); the `%+replace%` operator is now namespace-qualified.
+* Fixed the failing pkgdown build: the visualization functions
+  (`theme_educabr`, `scale_educabr`, `scale_x_year_educabr`) are now
+  listed in a "Visualization" group of the reference index.
+* New vignette `visualization.Rmd` documenting the plotting toolkit
+  (theme, `plot_titles`, Okabe-Ito scales, historical year axis,
+  palette reference).
+* Vignettes updated to match the current package: five-function API
+  (with `get_attainment()` and a new international-comparison case),
+  six dashboard tabs, the deduplication hierarchy, the `dimension`
+  asymmetries, `educabr_cite()` demos, and the correct version.
+* README: six dashboard tabs, deduplication hierarchy and validation
+  notes, fixed moved/404 URLs; dashboard About now points to the
+  documentation site and mentions the visualization system and
+  citation helpers.
+
 ## Visualization system (2026-07-11)
 
 * New exported scale `scale_x_year_educabr()` — a year-axis scale for

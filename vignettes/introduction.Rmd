@@ -45,6 +45,11 @@ available in analytic format:
 * **Grade-progression ratio (GDR6)** — 1955 to 2010, BR + 20 UFs,
   a proxy for early-primary retention drawn from Kang, Paese & Felix
   (2021).
+* **International educational attainment** — 1870 to 2010, 111
+  countries, shares of the population aged 15-64 that completed
+  primary, secondary and tertiary education, with sex breakdowns
+  (Lee & Lee 2016) — so the Brazilian trajectory can be read against
+  the world record without leaving the package.
 
 Every transformation is auditable: each output row carries a
 canonical `source` key (catalogued in
@@ -58,24 +63,34 @@ exact table or chapter of origin.
 remotes::install_github("mancano-tales/educabr2")
 ```
 
-## A four-function API
+## A five-function API
 
 The public interface is intentionally minimal — one function per
 theme, all returning tibbles in the same canonical long schema:
 
 ```{r}
-# Schemas of the four return shapes
+# Schemas of the five return shapes
 str(get_enrollment(level = "fundamental", year = 1950))
 str(get_schooling(year = 1950))
 str(get_expenditure(level = "total", indicator = "share_gdp", year = 1950))
 str(get_progression(year = 1980))
+str(get_attainment(geo = "BRA", year = 1950))
 ```
 
-All four return long-format tibbles that follow the same canonical
+All five return long-format tibbles that follow the same canonical
 schema (`inst/dict/schema.yaml`), with columns for the geographic
 unit, the inequality dimension (race, sex, …), the source, and the
 value. The shared filters (`year`, `geo_level`, `geo`, `source`,
-`wide`, `lang`) work identically across the family.
+`wide`, `lang`) work identically across the family. Because every
+function returns the same column set (constant-valued columns are
+kept where a source has no breakdown), results from different themes
+can be stacked directly with `rbind()`/`bind_rows()`.
+
+Note that the `dimension` argument is deliberately asymmetric:
+`get_schooling()` offers race *and* sex; `get_enrollment()` race
+only; `get_attainment()` sex only; `get_expenditure()` and
+`get_progression()` none. These asymmetries reproduce the physical
+limits of the historical sources, not limitations of the package.
 
 ## Case 1 — gross enrollment rate by race/colour
 
@@ -125,6 +140,15 @@ which suggests a stabilised figure in the literature. For other
 years estimates diverge — passing `source = "..."` to
 `get_enrollment()` is the recommended way to pin down a single
 series for secondary analysis.
+
+When a single continuous series is needed instead of the full
+side-by-side panel, the package's documented **deduplication
+hierarchy** gives the recommended order of precedence for overlapping
+years: INEP CENSUP microdata (2009-2024), then the INEP statistical
+synopses (1995-2008), then Kang, Paese & Felix (1990-1994), then
+Maduro Junior, then Durham, and finally the IBGE *Statistics of the
+20th Century*. The most disaggregated and official source available
+always wins.
 
 ## Case 3 — the reconstructed totals problem (2000-2008)
 
@@ -238,22 +262,70 @@ ratio is already wide, and only narrows substantially after the
 > documented gaps at 1988-1990 and 1994 due to transitions in the
 > official grade structure.
 
+## Case 7 — Brazil in international perspective
+
+The Lee & Lee (2016) panel lets you place the Brazilian expansion
+against comparators without leaving the package:
+
+```{r}
+att <- get_attainment(
+  level = "tertiary",
+  geo   = c("BRA", "ARG", "KOR", "USA"),
+  year  = c(1950, 2010)
+)
+
+att[att$year %in% c(1950, 1980, 2010),
+    c("year", "geo_code", "value")]
+```
+
+## The built-in visualization system
+
+The package ships a plotting toolkit designed after Kieran Healy's
+*Data Visualization* principles, so that a query can become a
+publication-ready figure in three lines:
+
+* `theme_educabr()` — a serif, minimal theme; with `plot_titles =
+  FALSE` it strips in-canvas titles for LaTeX/Quarto manuscripts
+  where captions live in the document. If a local TinyTeX
+  installation is found (and `showtext`/`sysfonts` are installed),
+  the LaTeX font Latin Modern Roman is registered automatically.
+* `scale_colour_educabr()` / `scale_fill_educabr()` — the
+  colorblind-safe Okabe-Ito palette.
+* `scale_x_year_educabr(years)` — a year axis for century-long
+  series: break spacing follows the span of the data, and the first
+  and last years present are always labelled.
+
+```{r, eval = requireNamespace("ggplot2", quietly = TRUE)}
+library(ggplot2)
+
+df <- get_schooling(geo_level = "BR", dimension = "sex")
+
+ggplot(df, aes(year, value, colour = dim_sex)) +
+  geom_line(linewidth = 0.9) +
+  scale_colour_educabr(name = NULL) +
+  scale_x_year_educabr(df$year) +
+  theme_educabr() +
+  labs(x = NULL, y = "Mean years of schooling",
+       title = "The gender gap in schooling reversed over the 20th century")
+```
+
 ## Interactive dashboard
 
-The package ships a Shiny dashboard with **five tabs** — one per
+The package ships a Shiny dashboard with **six tabs** — one per
 theme (Enrollment, Tertiary Education, Educational Attainment,
-Public Expenditure, Grade Progression):
+Public Expenditure, Grade Progression, International Comparison):
 
 ```r
 educabr2::run_dashboard()
 ```
 
 The dashboard replicates the multi-source tertiary comparison and
-the new expenditure / progression series interactively. Each tab has
-a **"View R code"** button that emits the `educabr2` + `ggplot2`
-snippet needed to reproduce the visualisation in your local R
-session — a direct bridge between dashboard exploration and
-reproducible scripted analysis.
+the expenditure / progression / international series interactively.
+Each tab has a **"View R code"** button that emits the `educabr2` +
+`ggplot2` snippet needed to reproduce the visualisation in your
+local R session — styled with the package's own visualization
+system described above — a direct bridge between dashboard
+exploration and reproducible scripted analysis.
 
 ## Sources and citation
 
@@ -286,8 +358,20 @@ sources are:
 * INEP/MEC. *Microdados do Censo da Educação Superior* (2009-2024).
 * INEP/MEC. *CENSUP Power BI panel* (2010-2024).
 
+The `educabr_cite()` helper turns any source key (or the `source`
+column of a query result) into a ready-to-paste reference:
+
+```{r}
+educabr_cite("kang_paese_felix_2021", style = "text")
+```
+
+Use `style = "bibtex"` for a BibTeX entry, or call `educabr_cite()`
+with no arguments to list all bundled sources. Please cite **both**
+the package (for the harmonization) and the original compilations
+(for the archival work that produced the numbers).
+
 To cite the package itself:
 
 > Mançano, T. (2026). *educabr2: Harmonized Historical Series on
-> Brazilian Education* (version 0.0.0.9000).
+> Brazilian Education* (version 0.1.0).
 > <https://github.com/mancano-tales/educabr2>
