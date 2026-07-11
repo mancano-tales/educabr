@@ -228,8 +228,20 @@ df <- get_enrollment(level = "superior", dimension = "race")
 ggplot(df, aes(x = year, y = value, fill = dim_race)) +
   geom_area() +
   theme_educabr() +
-  scale_fill_educabr()
+  scale_fill_educabr() +
+  scale_x_year_educabr(df$year)
 ```
+
+### Year Axis for Historical Series (`scale_x_year_educabr()`)
+
+Most series in `educabr2` span many decades (some more than a century), and
+default `ggplot2` breaks become unreadable at that scale. The exported
+`scale_x_year_educabr(years)` scale picks the break spacing from the span of
+the data you actually plot — every 20 years beyond six decades, every 10
+years for intermediate spans, `pretty()` breaks below that — and always
+labels the first and last year present in the series, dropping any grid
+break that would collide with those extreme labels. Pass it the vector of
+years being plotted (typically `df$year`).
 
 ### Font Auto-Registration (TinyTeX & Latin Modern)
 
