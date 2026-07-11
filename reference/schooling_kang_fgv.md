@@ -1,4 +1,4 @@
-# Mean years of schooling — Walter & Kang 2023 compilation
+# Mean years of schooling — Walter & Kang 2024 compilation
 
 Long-run Brazilian mean years of schooling reconstructed by Walter &
 Kang (2023) from Censuses and household surveys. The dataset is the
@@ -74,9 +74,9 @@ A tibble with approximately 2 300 rows and 12 columns:
 
 ## Source
 
-Walter, J., & Kang, T. H. (2023). A new dataset of average years of
-schooling in Brazil, 1925-2015. FGV-IBRE working paper. ETL script:
-`data-raw/02_build_schooling_kang_fgv.R`.
+Walter, J., & Kang, T. H. (2024). A new dataset of average years of
+schooling in Brazil, 1925-2015. Economic History of Developing Regions,
+39(3), 307-336. ETL script: `data-raw/02_build_schooling_kang_fgv.R`.
 
 ## Coverage
 

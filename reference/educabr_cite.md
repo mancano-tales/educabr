@@ -22,6 +22,9 @@ educabr_cite(source_key = NULL, style = c("bibentry", "text", "bibtex"))
   [`get_enrollment()`](https://mancano-tales.github.io/educabr2/reference/get_enrollment.md)
   or
   [`get_schooling()`](https://mancano-tales.github.io/educabr2/reference/get_schooling.md).
+  The alias `"walter_kang_2024"` (the year of the peer-reviewed article)
+  is accepted and resolves to the same source as `"walter_kang_2023"`
+  (the legacy key still carried by the data).
 
 - style:
 

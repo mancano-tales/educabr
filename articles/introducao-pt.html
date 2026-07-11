@@ -43,6 +43,7 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/introduction.html">Introduction to educabr2</a></li>
     <li><a class="dropdown-item" href="../articles/introducao-pt.html">Introdução ao educabr2 (PT-BR)</a></li>
+    <li><a class="dropdown-item" href="../articles/visualization.html">The educabr2 visualization system</a></li>
   </ul>
 </li>
 <li class="nav-item dropdown">
@@ -59,7 +60,7 @@
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
 </form></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://qx3hly-tales-man0ano.shinyapps.io/educabr/" aria-label="Live dashboard"><span class="fa fa-chart-line"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://qx3hly-tales-man0ano.shinyapps.io/educabr2/" aria-label="Live dashboard"><span class="fa fa-chart-line"></span></a></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/mancano-tales/educabr2/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
@@ -121,6 +122,12 @@ Menetrier 2024).</li>
 <strong>Razão de progressão escolar (GDR6)</strong> — 1955 a 2010,
 BR + 20 UFs, <em>proxy</em> da retenção nos primeiros anos do antigo
 primário (Kang, Paese &amp; Felix 2021).</li>
+<li>
+<strong>Atingimento educacional internacional</strong> — 1870 a
+2010, 111 países, proporções da população de 15-64 anos que completou os
+níveis primário, secundário e terciário, com desagregação por sexo (Lee
+&amp; Lee 2016) — a trajetória brasileira lida contra o registro mundial
+sem sair do pacote.</li>
 </ul>
 <p>Toda a transformação dos dados é auditável: cada linha do
 <em>output</em> carrega o <code>source</code> (chave canônica em
@@ -136,12 +143,12 @@ origem.</p>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"mancano-tales/educabr2"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="api-em-quatro-funções">API em quatro funções<a class="anchor" aria-label="anchor" href="#api-em-quatro-fun%C3%A7%C3%B5es"></a>
+<h2 id="api-em-cinco-funções">API em cinco funções<a class="anchor" aria-label="anchor" href="#api-em-cinco-fun%C3%A7%C3%B5es"></a>
 </h2>
 <p>A interface pública é deliberadamente enxuta — uma função por tema,
 todas devolvendo <em>tibbles</em> no mesmo esquema canônico:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Esquema dos quatro principais resultados</span></span>
+<code class="sourceCode R"><span><span class="co"># Esquema dos cinco principais resultados</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="fu"><a href="../reference/get_enrollment.html">get_enrollment</a></span><span class="op">(</span>level <span class="op">=</span> <span class="st">"fundamental"</span>, year <span class="op">=</span> <span class="fl">1950</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; tibble [2 × 16] (S3: tbl_df/tbl/data.frame)</span></span>
 <span><span class="co">#&gt;  $ year            : int [1:2] 1950 1950</span></span>
@@ -160,6 +167,11 @@ todas devolvendo <em>tibbles</em> no mesmo esquema canônico:</p>
 <span><span class="co">#&gt;  $ source          : chr [1:2] "kang_paese_felix_2021" "kang_paese_felix_2021"</span></span>
 <span><span class="co">#&gt;  $ source_note     : chr [1:2] "Kang, Paese &amp; Felix (2021). RHE 39(2):191-218. doi:10.1017/S0212610921000112" "Kang, Paese &amp; Felix (2021). RHE 39(2):191-218. doi:10.1017/S0212610921000112"</span></span>
 <span><span class="co">#&gt;  $ is_derived      : logi [1:2] FALSE FALSE</span></span>
+<span><span class="co">#&gt;  - attr(*, "educabr_meta")=List of 4</span></span>
+<span><span class="co">#&gt;   ..$ build_script   : chr "data-raw/01_build_enrollment_kang_fgv.R"</span></span>
+<span><span class="co">#&gt;   ..$ built_at       : POSIXct[1:1], format: "2026-05-18 09:38:50"</span></span>
+<span><span class="co">#&gt;   ..$ primary_sources: chr [1:4] "kang_menetrier_comim_2024" "kang_paese_felix_2021" "kang_paese_felix_2021" "kang_menetrier_2024"</span></span>
+<span><span class="co">#&gt;   ..$ raw_files      : chr [1:4] "data-raw/sources/kang_fgv_ibre_2023/1._matricula_primario_1871_2010_v_abril2023.xlsx" "data-raw/sources/kang_fgv_ibre_2023/2._matriculas_txmatriculas_porcor_1960_2010_v_abril2023.xlsx" "data-raw/sources/kang_fgv_ibre_2023/4._matricula_txmatriculas_1933_2010_v_abril2023.xlsx" "data-raw/sources/kang_fgv_ibre_2023/6._matricula_txmatriculas_estado_1955_2010_v_abril2023.xlsx"</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="fu"><a href="../reference/get_schooling.html">get_schooling</a></span><span class="op">(</span>year <span class="op">=</span> <span class="fl">1950</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; tibble [1 × 12] (S3: tbl_df/tbl/data.frame)</span></span>
 <span><span class="co">#&gt;  $ year       : int 1950</span></span>
@@ -173,12 +185,12 @@ todas devolvendo <em>tibbles</em> no mesmo esquema canônico:</p>
 <span><span class="co">#&gt;  $ value      : num 1.59</span></span>
 <span><span class="co">#&gt;  $ unit       : chr "years"</span></span>
 <span><span class="co">#&gt;  $ source     : chr "walter_kang_2023"</span></span>
-<span><span class="co">#&gt;  $ source_note: chr "Walter, J., &amp; Kang, T. H. (2023). A new dataset of average years of schooling in Brazil, 1925-2015. FGV-IBRE working paper."</span></span>
+<span><span class="co">#&gt;  $ source_note: chr "Walter, J., &amp; Kang, T. H. (2024). A new dataset of average years of schooling in Brazil, 1925-2015. Economic Hi"| __truncated__</span></span>
 <span><span class="co">#&gt;  - attr(*, "educabr_meta")=List of 5</span></span>
 <span><span class="co">#&gt;   ..$ build_script  : chr "data-raw/02_build_schooling_kang_fgv.R"</span></span>
-<span><span class="co">#&gt;   ..$ built_at      : POSIXct[1:1], format: "2026-05-17 19:08:24"</span></span>
+<span><span class="co">#&gt;   ..$ built_at      : POSIXct[1:1], format: "2026-07-10 01:00:11"</span></span>
 <span><span class="co">#&gt;   ..$ primary_source: chr "walter_kang_2023"</span></span>
-<span><span class="co">#&gt;   ..$ citation      : chr "Walter, J., &amp; Kang, T. H. (2023). A new dataset of average years of schooling in Brazil, 1925-2015. FGV-IBRE working paper."</span></span>
+<span><span class="co">#&gt;   ..$ citation      : chr "Walter, J., &amp; Kang, T. H. (2024). A new dataset of average years of schooling in Brazil, 1925-2015. Economic Hi"| __truncated__</span></span>
 <span><span class="co">#&gt;   ..$ raw_files     : chr "data-raw/sources/kang_fgv_ibre_2023/3._anos_estudo_1925_2015_v_abril2023.xlsx"</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="fu"><a href="../reference/get_expenditure.html">get_expenditure</a></span><span class="op">(</span>level <span class="op">=</span> <span class="st">"total"</span>, indicator <span class="op">=</span> <span class="st">"share_gdp"</span>, year <span class="op">=</span> <span class="fl">1950</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; tibble [1 × 13] (S3: tbl_df/tbl/data.frame)</span></span>
@@ -221,14 +233,44 @@ todas devolvendo <em>tibbles</em> no mesmo esquema canônico:</p>
 <span><span class="co">#&gt;   ..$ built_at      : POSIXct[1:1], format: "2026-05-19 02:43:16"</span></span>
 <span><span class="co">#&gt;   ..$ primary_source: chr "kang_paese_felix_2021"</span></span>
 <span><span class="co">#&gt;   ..$ citation      : chr "Kang, Paese &amp; Felix (2021). RHE 39(2):191-218. doi:10.1017/S0212610921000112"</span></span>
-<span><span class="co">#&gt;   ..$ raw_files     : chr "data-raw/sources/kang_fgv_ibre_2023/7._gdr6_1955_2010_v_abril2023.xlsx"</span></span></code></pre></div>
+<span><span class="co">#&gt;   ..$ raw_files     : chr "data-raw/sources/kang_fgv_ibre_2023/7._gdr6_1955_2010_v_abril2023.xlsx"</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="fu"><a href="../reference/get_attainment.html">get_attainment</a></span><span class="op">(</span>geo <span class="op">=</span> <span class="st">"BRA"</span>, year <span class="op">=</span> <span class="fl">1950</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; tibble [3 × 12] (S3: tbl_df/tbl/data.frame)</span></span>
+<span><span class="co">#&gt;  $ year       : int [1:3] 1950 1950 1950</span></span>
+<span><span class="co">#&gt;  $ geo_level  : chr [1:3] "country" "country" "country"</span></span>
+<span><span class="co">#&gt;  $ geo_code   : chr [1:3] "BRA" "BRA" "BRA"</span></span>
+<span><span class="co">#&gt;  $ geo_name   : chr [1:3] "Brazil" "Brazil" "Brazil"</span></span>
+<span><span class="co">#&gt;   ..- attr(*, "label")= chr "Country name"</span></span>
+<span><span class="co">#&gt;   ..- attr(*, "format.stata")= chr "%20s"</span></span>
+<span><span class="co">#&gt;  $ level      : chr [1:3] "primary" "secondary" "tertiary"</span></span>
+<span><span class="co">#&gt;  $ dim_sex    : chr [1:3] "total" "total" "total"</span></span>
+<span><span class="co">#&gt;  $ age_group  : chr [1:3] "15-64" "15-64" "15-64"</span></span>
+<span><span class="co">#&gt;  $ indicator  : chr [1:3] "attainment_share_completed" "attainment_share_completed" "attainment_share_completed"</span></span>
+<span><span class="co">#&gt;  $ value      : num [1:3] 23.611 4.345 0.519</span></span>
+<span><span class="co">#&gt;  $ unit       : chr [1:3] "percent" "percent" "percent"</span></span>
+<span><span class="co">#&gt;  $ source     : chr [1:3] "lee_lee_2016" "lee_lee_2016" "lee_lee_2016"</span></span>
+<span><span class="co">#&gt;  $ source_note: chr [1:3] "Lee, J.-W., &amp; Lee, H. (2016). Human capital in the long run. Journal of Development Economics, 122, 147-169. do"| __truncated__ "Lee, J.-W., &amp; Lee, H. (2016). Human capital in the long run. Journal of Development Economics, 122, 147-169. do"| __truncated__ "Lee, J.-W., &amp; Lee, H. (2016). Human capital in the long run. Journal of Development Economics, 122, 147-169. do"| __truncated__</span></span>
+<span><span class="co">#&gt;  - attr(*, "educabr_meta")=List of 5</span></span>
+<span><span class="co">#&gt;   ..$ build_script  : chr "data-raw/06_build_lee_lee_2016.R"</span></span>
+<span><span class="co">#&gt;   ..$ built_at      : POSIXct[1:1], format: "2026-05-25 16:54:26"</span></span>
+<span><span class="co">#&gt;   ..$ primary_source: chr "lee_lee_2016"</span></span>
+<span><span class="co">#&gt;   ..$ citation      : chr "Lee, J.-W., &amp; Lee, H. (2016). Human capital in the long run. Journal of Development Economics, 122, 147-169. do"| __truncated__</span></span>
+<span><span class="co">#&gt;   ..$ raw_files     : chr "https://barrolee.github.io/BarroLeeDataSet/LeeLee/LeeLee_v1.dta"</span></span></code></pre></div>
 <p>Todas retornam <em>tibbles</em> longas seguindo o mesmo esquema
 canônico (<code>inst/dict/schema.yaml</code>), com colunas para a
 unidade geográfica, a dimensão de desigualdade (raça, sexo, etc.), a
 fonte e o valor. Os filtros compartilhados (<code>year</code>,
 <code>geo_level</code>, <code>geo</code>, <code>source</code>,
 <code>wide</code>, <code>lang</code>) funcionam de forma idêntica nas
-quatro funções.</p>
+cinco funções. Como o conjunto de colunas é o mesmo, resultados de temas
+diferentes podem ser empilhados diretamente com
+<code><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind()</a></code>/<code>bind_rows()</code>.</p>
+<p>Note que o argumento <code>dimension</code> é deliberadamente
+assimétrico: <code><a href="../reference/get_schooling.html">get_schooling()</a></code> oferece raça <em>e</em> sexo;
+<code><a href="../reference/get_enrollment.html">get_enrollment()</a></code> apenas raça; <code><a href="../reference/get_attainment.html">get_attainment()</a></code>
+apenas sexo; <code><a href="../reference/get_expenditure.html">get_expenditure()</a></code> e
+<code><a href="../reference/get_progression.html">get_progression()</a></code> nenhum. As assimetrias reproduzem os
+limites físicos das fontes históricas, não limitações do pacote.</p>
 </div>
 <div class="section level2">
 <h2 id="caso-1-taxa-bruta-de-matrícula-por-raçacor">Caso 1 — taxa bruta de matrícula por raça/cor<a class="anchor" aria-label="anchor" href="#caso-1-taxa-bruta-de-matr%C3%ADcula-por-ra%C3%A7acor"></a>
@@ -293,6 +335,13 @@ milhão), o que sugere uma estimativa estabilizada na literatura. Para
 outros anos as estimativas divergem — passar <code>source = "..."</code>
 no <code><a href="../reference/get_enrollment.html">get_enrollment()</a></code> é o caminho recomendado para fixar uma
 série única em análises secundárias.</p>
+<p>Quando o que se quer é uma série única contínua (e não o painel lado
+a lado), a <strong>hierarquia de deduplicação</strong> documentada do
+pacote dá a ordem de precedência recomendada para anos sobrepostos:
+microdados do CENSUP/INEP (2009-2024) → sinopses estatísticas do INEP
+(1995-2008) → Kang, Paese &amp; Felix (1990-1994) → Maduro Junior →
+Durham → IBGE <em>Estatísticas do Século XX</em>. A fonte mais
+desagregada e oficial disponível sempre prevalece.</p>
 </div>
 <div class="section level2">
 <h2 id="caso-3-o-problema-dos-totais-reconstruídos-2000-2008">Caso 3 — o problema dos totais reconstruídos (2000-2008)<a class="anchor" aria-label="anchor" href="#caso-3-o-problema-dos-totais-reconstru%C3%ADdos-2000-2008"></a>
@@ -452,29 +501,106 @@ oficiais da estrutura de séries.</p>
 </blockquote>
 </div>
 <div class="section level2">
+<h2 id="caso-7-o-brasil-em-perspectiva-internacional">Caso 7 — o Brasil em perspectiva internacional<a class="anchor" aria-label="anchor" href="#caso-7-o-brasil-em-perspectiva-internacional"></a>
+</h2>
+<p>O painel de Lee &amp; Lee (2016) permite ler a expansão brasileira
+contra comparadores sem sair do pacote:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">att</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_attainment.html">get_attainment</a></span><span class="op">(</span></span>
+<span>  level <span class="op">=</span> <span class="st">"tertiary"</span>,</span>
+<span>  geo   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"BRA"</span>, <span class="st">"ARG"</span>, <span class="st">"KOR"</span>, <span class="st">"USA"</span><span class="op">)</span>,</span>
+<span>  year  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1950</span>, <span class="fl">2010</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">att</span><span class="op">[</span><span class="va">att</span><span class="op">$</span><span class="va">year</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1950</span>, <span class="fl">1980</span>, <span class="fl">2010</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"year"</span>, <span class="st">"geo_code"</span>, <span class="st">"value"</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 12 × 3</span></span></span>
+<span><span class="co">#&gt;     year geo_code  value</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  <span style="text-decoration: underline;">1</span>950 ARG       0.737</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  <span style="text-decoration: underline;">1</span>980 ARG       3.71 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  <span style="text-decoration: underline;">2</span>010 ARG       2.31 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  <span style="text-decoration: underline;">1</span>950 BRA       0.519</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  <span style="text-decoration: underline;">1</span>980 BRA       2.90 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  <span style="text-decoration: underline;">2</span>010 BRA       6.59 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  <span style="text-decoration: underline;">1</span>950 KOR       0.748</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  <span style="text-decoration: underline;">1</span>980 KOR       4.89 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  <span style="text-decoration: underline;">2</span>010 KOR      33.6  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  <span style="text-decoration: underline;">1</span>950 USA       7.16 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span>  <span style="text-decoration: underline;">1</span>980 USA      17.9  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span>  <span style="text-decoration: underline;">2</span>010 USA      27.5</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="o-sistema-de-visualização-embutido">O sistema de visualização embutido<a class="anchor" aria-label="anchor" href="#o-sistema-de-visualiza%C3%A7%C3%A3o-embutido"></a>
+</h2>
+<p>O pacote acompanha um conjunto de componentes de <em>plotting</em>
+desenhado segundo os princípios de <em>Data Visualization</em> de Kieran
+Healy, para que uma consulta vire figura pronta para publicação em três
+linhas:</p>
+<ul>
+<li>
+<code><a href="../reference/theme_educabr.html">theme_educabr()</a></code> — tema serifado minimalista; com
+<code>plot_titles = FALSE</code> remove títulos internos para
+manuscritos LaTeX/Quarto (onde legenda e nota vivem no documento). Se
+houver TinyTeX local (e os pacotes
+<code>showtext</code>/<code>sysfonts</code>), a fonte LaTeX Latin Modern
+Roman é registrada automaticamente.</li>
+<li>
+<code><a href="../reference/scale_educabr.html">scale_colour_educabr()</a></code> /
+<code><a href="../reference/scale_educabr.html">scale_fill_educabr()</a></code> — paleta Okabe-Ito, segura para
+daltonismo.</li>
+<li>
+<code>scale_x_year_educabr(anos)</code> — eixo de anos para séries
+seculares: o espaçamento dos rótulos segue o span dos dados e o primeiro
+e o último ano presentes são sempre rotulados.</li>
+</ul>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_schooling.html">get_schooling</a></span><span class="op">(</span>geo_level <span class="op">=</span> <span class="st">"BR"</span>, dimension <span class="op">=</span> <span class="st">"sex"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">year</span>, <span class="va">value</span>, colour <span class="op">=</span> <span class="va">dim_sex</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/scale_educabr.html">scale_colour_educabr</a></span><span class="op">(</span>name <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/scale_x_year_educabr.html">scale_x_year_educabr</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">year</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/theme_educabr.html">theme_educabr</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="cn">NULL</span>, y <span class="op">=</span> <span class="st">"Anos médios de estudo"</span>,</span>
+<span>       title <span class="op">=</span> <span class="st">"A inversão do gender gap educacional no século XX"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="introducao-pt_files/figure-html/unnamed-chunk-10-1.png" class="r-plt" alt="" width="100%"></p>
+</div>
+<div class="section level2">
 <h2 id="painel-interativo">Painel interativo<a class="anchor" aria-label="anchor" href="#painel-interativo"></a>
 </h2>
-<p>O pacote acompanha um painel Shiny com <strong>cinco abas</strong> —
+<p>O pacote acompanha um painel Shiny com <strong>seis abas</strong> —
 uma por tema (Enrollment, Tertiary Education, Educational Attainment,
-Public Expenditure, Grade Progression):</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+Public Expenditure, Grade Progression, International Comparison):</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">educabr2</span><span class="fu">::</span><span class="fu"><a href="../reference/run_dashboard.html">run_dashboard</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>O painel reproduz toda a comparação multi-fonte do ensino superior e
-as novas séries de despesa e progressão de forma interativa, com um
-botão “View R code” em cada aba que gera o código <code>educabr2</code>
-+ <code>ggplot2</code> para reproduzir a visualização no seu ambiente R
-local — uma ponte direta entre exploração no painel e análise
-reprodutível em script.</p>
+as séries de despesa, progressão e comparação internacional de forma
+interativa, com um botão “View R code” em cada aba que gera o código
+<code>educabr2</code> + <code>ggplot2</code> para reproduzir a
+visualização no seu ambiente R local — já estilizado com o sistema de
+visualização do próprio pacote — uma ponte direta entre exploração no
+painel e análise reprodutível em script.</p>
 </div>
 <div class="section level2">
 <h2 id="fontes-e-citação">Fontes e citação<a class="anchor" aria-label="anchor" href="#fontes-e-cita%C3%A7%C3%A3o"></a>
 </h2>
 <p>A lista completa de fontes com DOIs e links está na vignette
 principal em inglês (<code><a href="../articles/introduction.html">vignette("introduction", "educabr2")</a></code>).
-Para citar o pacote em si:</p>
+A função <code><a href="../reference/educabr_cite.html">educabr_cite()</a></code> transforma qualquer chave de fonte
+(ou a coluna <code>source</code> de um resultado) em referência pronta
+para colar:</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/educabr_cite.html">educabr_cite</a></span><span class="op">(</span><span class="st">"kang_paese_felix_2021"</span>, style <span class="op">=</span> <span class="st">"text"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "(2021). \"Kang, T. H., Paese, L. H. Z., &amp; Felix, N. F. A. (2021). Late\nand unequal: Enrolments and retention in Brazilian education,\n1933-2010. Revista de Historia Económica / Journal of Iberian and Latin\nAmerican Economic History, 39(2), 191–218.\"\ndoi:10.1017/S0212610921000112\n&lt;https://doi.org/10.1017/S0212610921000112&gt;.\n&lt;https://doi.org/10.1017/S0212610921000112&gt;."</span></span></code></pre></div>
+<p>Cite <strong>tanto</strong> o pacote (pela harmonização)
+<strong>quanto</strong> as compilações originais (pelo trabalho de
+arquivo que produziu os números). Para citar o pacote em si:</p>
 <blockquote>
 <p>Mançano, T. (2026). <em>educabr2: Harmonized Historical Series on
-Brazilian Education</em> (versão 0.0.0.9000). <a href="https://github.com/mancano-tales/educabr2" class="external-link uri">https://github.com/mancano-tales/educabr2</a></p>
+Brazilian Education</em> (versão 0.1.0). <a href="https://github.com/mancano-tales/educabr2" class="external-link uri">https://github.com/mancano-tales/educabr2</a></p>
 </blockquote>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -488,7 +614,7 @@ Brazilian Education</em> (versão 0.0.0.9000). <a href="https://github.com/manca
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>

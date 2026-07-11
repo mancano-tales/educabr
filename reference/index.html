@@ -21,6 +21,7 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/introduction.html">Introduction to educabr2</a></li>
     <li><a class="dropdown-item" href="../articles/introducao-pt.html">Introdução ao educabr2 (PT-BR)</a></li>
+    <li><a class="dropdown-item" href="../articles/visualization.html">The educabr2 visualization system</a></li>
   </ul></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-news" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">News</button>
@@ -31,7 +32,7 @@
   </ul></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://qx3hly-tales-man0ano.shinyapps.io/educabr/" aria-label="Live dashboard"><span class="fa fa-chart-line"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://qx3hly-tales-man0ano.shinyapps.io/educabr2/" aria-label="Live dashboard"><span class="fa fa-chart-line"></span></a></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/mancano-tales/educabr2/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul></div>
 
@@ -111,9 +112,39 @@
         </dt>
         <dd>Generate citations for educabr2 data sources</dd>
       </dl></div><div class="section level2">
+      <h2 id="visualization">Visualization<a class="anchor" aria-label="anchor" href="#visualization"></a></h2>
+
+      <div class="section-desc"><p>Consistent, colorblind-safe plotting components in the style of Healy’s <em>Data Visualization</em>: a ggplot2 theme, Okabe-Ito colour scales, and a year axis designed for century-long historical series.</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="theme_educabr.html">theme_educabr()</a></code>
+
+        </dt>
+        <dd>educabr2 Visualization Theme</dd>
+
+        <dt>
+
+          <code><a href="scale_educabr.html">scale_colour_educabr()</a></code> <code><a href="scale_educabr.html">scale_fill_educabr()</a></code>
+
+        </dt>
+        <dd>educabr2 Color Scales (Okabe-Ito)</dd>
+
+        <dt>
+
+          <code><a href="scale_x_year_educabr.html">scale_x_year_educabr()</a></code>
+
+        </dt>
+        <dd>Year Axis Scale for Historical Series</dd>
+      </dl></div><div class="section level2">
       <h2 id="dashboard">Dashboard<a class="anchor" aria-label="anchor" href="#dashboard"></a></h2>
 
-      <div class="section-desc"><p>Launch the bundled Shiny dashboard. A read-only deployment is also <a href="https://qx3hly-tales-man0ano.shinyapps.io/educabr/" class="external-link">hosted on shinyapps.io</a>.</p></div>
+      <div class="section-desc"><p>Launch the bundled Shiny dashboard. A read-only deployment is also <a href="https://qx3hly-tales-man0ano.shinyapps.io/educabr2/" class="external-link">hosted on shinyapps.io</a>.</p></div>
 
       <dl></dl></div><div class="section level2">
 
@@ -155,7 +186,7 @@
           <code><a href="schooling_kang_fgv.html">schooling_kang_fgv</a></code>
 
         </dt>
-        <dd>Mean years of schooling — Walter &amp; Kang 2023 compilation</dd>
+        <dd>Mean years of schooling — Walter &amp; Kang 2024 compilation</dd>
 
         <dt>
 
@@ -203,7 +234,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>

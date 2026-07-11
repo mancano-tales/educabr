@@ -26,11 +26,25 @@ itself.
 - [`educabr_cite()`](https://mancano-tales.github.io/educabr2/reference/educabr_cite.md)
   : Generate citations for educabr2 data sources
 
+## Visualization
+
+Consistent, colorblind-safe plotting components in the style of Healy’s
+*Data Visualization*: a ggplot2 theme, Okabe-Ito colour scales, and a
+year axis designed for century-long historical series.
+
+- [`theme_educabr()`](https://mancano-tales.github.io/educabr2/reference/theme_educabr.md)
+  : educabr2 Visualization Theme
+- [`scale_colour_educabr()`](https://mancano-tales.github.io/educabr2/reference/scale_educabr.md)
+  [`scale_fill_educabr()`](https://mancano-tales.github.io/educabr2/reference/scale_educabr.md)
+  : educabr2 Color Scales (Okabe-Ito)
+- [`scale_x_year_educabr()`](https://mancano-tales.github.io/educabr2/reference/scale_x_year_educabr.md)
+  : Year Axis Scale for Historical Series
+
 ## Dashboard
 
 Launch the bundled Shiny dashboard. A read-only deployment is also
 [hosted on
-shinyapps.io](https://qx3hly-tales-man0ano.shinyapps.io/educabr/).
+shinyapps.io](https://qx3hly-tales-man0ano.shinyapps.io/educabr2/).
 
 - [`run_dashboard()`](https://mancano-tales.github.io/educabr2/reference/run_dashboard.md)
   : Launch the educabr2 Shiny dashboard
@@ -47,7 +61,7 @@ filters and translates labels.
 - [`enrollment_tertiary`](https://mancano-tales.github.io/educabr2/reference/enrollment_tertiary.md)
   : Tertiary (ensino superior) enrollment — multi-source compilation
 - [`schooling_kang_fgv`](https://mancano-tales.github.io/educabr2/reference/schooling_kang_fgv.md)
-  : Mean years of schooling — Walter & Kang 2023 compilation
+  : Mean years of schooling — Walter & Kang 2024 compilation
 - [`expenditure_kang_fgv`](https://mancano-tales.github.io/educabr2/reference/expenditure_kang_fgv.md)
   : Public expenditure on education — Kang & Menetrier 2024 compilation
 - [`progression_kang_fgv`](https://mancano-tales.github.io/educabr2/reference/progression_kang_fgv.md)

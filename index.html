@@ -62,6 +62,7 @@ provenance. Includes a bundled Shiny dashboard.
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="articles/introduction.html">Introduction to educabr2</a></li>
     <li><a class="dropdown-item" href="articles/introducao-pt.html">Introdução ao educabr2 (PT-BR)</a></li>
+    <li><a class="dropdown-item" href="articles/visualization.html">The educabr2 visualization system</a></li>
   </ul>
 </li>
 <li class="nav-item dropdown">
@@ -78,7 +79,7 @@ provenance. Includes a bundled Shiny dashboard.
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="search.json">
 </form></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://qx3hly-tales-man0ano.shinyapps.io/educabr/" aria-label="Live dashboard"><span class="fa fa-chart-line"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://qx3hly-tales-man0ano.shinyapps.io/educabr2/" aria-label="Live dashboard"><span class="fa fa-chart-line"></span></a></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/mancano-tales/educabr2/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
@@ -97,15 +98,15 @@ provenance. Includes a bundled Shiny dashboard.
 </blockquote>
 <p><a href="LICENSE.html"><img src="https://img.shields.io/badge/License-GPL--3-blue.svg" alt="License: GPL (&gt;= 3)"></a> <a href="https://github.com/mancano-tales/educabr2/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/mancano-tales/educabr2/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a> <a href="https://mancano-tales.github.io/educabr2/"><img src="https://github.com/mancano-tales/educabr2/actions/workflows/pkgdown.yaml/badge.svg" alt="pkgdown"></a> <a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></p>
 <p><code>educabr2</code> provides curated long-run series on Brazilian formal education — enrollment by stage and network, years of schooling, literacy and attainment — compiled and reconciled from heterogeneous official and academic sources (Censo Escolar, PNAD, Censo Demográfico, Anuário Estatístico do IBGE, INEP CENSUP, Kang/FGV-IBRE, Walter &amp; Kang, among others) into a single tidy schema with explicit per-row provenance.</p>
-<p><strong>🇧🇷</strong> <code>educabr2</code> reúne séries históricas tratadas sobre educação formal no Brasil — matrículas, anos de estudo, atingimento educacional — em um único schema <em>tidy</em>, com proveniência explícita. Veja a <a href="https://mancano-tales.github.io/educabr2/dev/articles/introducao-pt.html">vinheta em português</a>.</p>
+<p><strong>🇧🇷</strong> <code>educabr2</code> reúne séries históricas tratadas sobre educação formal no Brasil — matrículas, anos de estudo, atingimento educacional — em um único schema <em>tidy</em>, com proveniência explícita. Veja a <a href="https://mancano-tales.github.io/educabr2/articles/introducao-pt.html">vinheta em português</a>.</p>
 <hr>
 <div class="section level2">
 <h2 id="quick-links">Quick links<a class="anchor" aria-label="anchor" href="#quick-links"></a>
 </h2>
 <ul>
 <li>📖 <strong><a href="https://mancano-tales.github.io/educabr2/">Reference site</a></strong> — function reference, articles, news</li>
-<li>📊 <strong><a href="https://qx3hly-tales-man0ano.shinyapps.io/educabr/" class="external-link">Live dashboard</a></strong> — interactive multi-source comparison on shinyapps.io</li>
-<li>📝 <strong><a href="https://mancano-tales.github.io/educabr2/dev/articles/introduction.html">Get started</a></strong> — 10-minute tour of the API</li>
+<li>📊 <strong><a href="https://qx3hly-tales-man0ano.shinyapps.io/educabr2/" class="external-link">Live dashboard</a></strong> — interactive multi-source comparison on shinyapps.io</li>
+<li>📝 <strong><a href="https://mancano-tales.github.io/educabr2/articles/introduction.html">Get started</a></strong> — 10-minute tour of the API</li>
 <li>🐛 <strong><a href="https://github.com/mancano-tales/educabr2/issues" class="external-link">Issues</a></strong>
 </li>
 </ul>
@@ -246,7 +247,7 @@ provenance. Includes a bundled Shiny dashboard.
 </h3>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">educabr2</span><span class="fu">::</span><span class="fu"><a href="reference/run_dashboard.html">run_dashboard</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>Five navbar tabs:</p>
+<p>Six navbar tabs:</p>
 <ul>
 <li>
 <strong>Enrollment</strong> — Kang/FGV series by stage, year, race</li>
@@ -258,8 +259,10 @@ provenance. Includes a bundled Shiny dashboard.
 <strong>Public Expenditure</strong> — Kang &amp; Menetrier (2024) series on public spending in education: share of GDP by stage, per-student spending as share of GDP per capita, and the “double ratio” indicators of fiscal regressivity (Brazil, 1933–2010)</li>
 <li>
 <strong>Grade Progression</strong> — Kang/Paese/Felix (2021) GDR6 progression ratio (enrollment in grades 4-6 / grades 1-3 of the old eight-year primary system), BR and 20 UFs, 1955–2010</li>
+<li>
+<strong>International Comparison</strong> — Lee &amp; Lee (2016) attainment shares (primary/secondary/tertiary completed, population 15–64), 111 countries, 1870–2010, with sex breakdowns — Brazil against the world record in the same interface</li>
 </ul>
-<p>Every chart has a “View R code” button that prints a self-contained snippet (educabr2 + ggplot2 + plotly) you can paste into RStudio to reproduce the interactive chart locally.</p>
+<p>Every chart has a “View R code” button that prints a self-contained snippet (educabr2 + ggplot2 + plotly, styled with the package’s own <code><a href="reference/theme_educabr.html">theme_educabr()</a></code> / Okabe-Ito scales / <code><a href="reference/scale_x_year_educabr.html">scale_x_year_educabr()</a></code>) you can paste into RStudio to reproduce the interactive chart locally.</p>
 <hr>
 </div>
 </div>
@@ -320,7 +323,50 @@ provenance. Includes a bundled Shiny dashboard.
 </tbody>
 </table>
 <p>End users should call the <code>get_*()</code> functions. The datasets are exposed for inspection but the public API normalises schema differences, applies per-source filters and translates labels.</p>
+<p><strong>Deduplication hierarchy.</strong> When the same year and sector are covered by multiple sources, the recommended order of precedence is: INEP CENSUP microdata (2009–2024) → INEP statistical synopses (1995–2008) → Kang, Paese &amp; Felix (1990–1994) → Maduro Junior → Durham → IBGE <em>Estatísticas do Século XX</em>. The most disaggregated and official source available always wins; all competing estimates remain in the panel for auditing.</p>
+<p><strong>Validation.</strong> Overlapping windows are preserved deliberately so the sources can be checked against each other: in 1995, for example, the INEP synopsis, Durham (2005) and Kang et al. (2021) all report exactly 1,759,703 tertiary enrollments — a perfect triangulation of the academic reconstructions against the official record.</p>
 <hr>
+</div>
+<div class="section level2">
+<h2 id="data-visualization">Data Visualization<a class="anchor" aria-label="anchor" href="#data-visualization"></a>
+</h2>
+<p>The <code>educabr2</code> package includes a built-in visualization system based on Kieran Healy’s <em>Data Visualization</em> (2018/2026) design principles. It provides a consistent aesthetic theme and colorblind-safe palettes matching the ongoing MA Thesis <em>The Politics of Reforming Tertiary Education</em> (Tales Mançano, 2026).</p>
+<p>To style your plots, use the <code><a href="reference/theme_educabr.html">theme_educabr()</a></code> and <code><a href="reference/scale_educabr.html">scale_fill_educabr()</a></code> / <code><a href="reference/scale_educabr.html">scale_colour_educabr()</a></code> functions:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mancano-tales/educabr2" class="external-link">educabr2</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Query some data</span></span>
+<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_enrollment.html">get_enrollment</a></span><span class="op">(</span>level <span class="op">=</span> <span class="st">"superior"</span>, dimension <span class="op">=</span> <span class="st">"race"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Build a plot</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">year</span>, y <span class="op">=</span> <span class="va">value</span>, fill <span class="op">=</span> <span class="va">dim_race</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_ribbon.html" class="external-link">geom_area</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="reference/theme_educabr.html">theme_educabr</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="reference/scale_educabr.html">scale_fill_educabr</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="reference/scale_x_year_educabr.html">scale_x_year_educabr</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">year</span><span class="op">)</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="year-axis-for-historical-series-scale_x_year_educabr">Year Axis for Historical Series (<code>scale_x_year_educabr()</code>)<a class="anchor" aria-label="anchor" href="#year-axis-for-historical-series-scale_x_year_educabr"></a>
+</h3>
+<p>Most series in <code>educabr2</code> span many decades (some more than a century), and default <code>ggplot2</code> breaks become unreadable at that scale. The exported <code>scale_x_year_educabr(years)</code> scale picks the break spacing from the span of the data you actually plot — every 20 years beyond six decades, every 10 years for intermediate spans, <code><a href="https://rdrr.io/r/base/pretty.html" class="external-link">pretty()</a></code> breaks below that — and always labels the first and last year present in the series, dropping any grid break that would collide with those extreme labels. Pass it the vector of years being plotted (typically <code>df$year</code>).</p>
+</div>
+<div class="section level3">
+<h3 id="font-auto-registration-tinytex--latin-modern">Font Auto-Registration (TinyTeX &amp; Latin Modern)<a class="anchor" aria-label="anchor" href="#font-auto-registration-tinytex--latin-modern"></a>
+</h3>
+<p>To match formal academic publications, the theme tries to use the standard LaTeX font family <strong>Latin Modern Roman</strong>. * <strong>Automatic Registration:</strong> If you have <strong>TinyTeX</strong> installed on your system (e.g. via <code><a href="https://rdrr.io/pkg/tinytex/man/install_tinytex.html" class="external-link">tinytex::install_tinytex()</a></code>) and have the <code>showtext</code> and <code>sysfonts</code> R packages installed, <code><a href="reference/theme_educabr.html">theme_educabr()</a></code> will automatically locate the <code>.otf</code> font files in your TinyTeX directories and load them dynamically using <code><a href="https://rdrr.io/pkg/sysfonts/man/font_add.html" class="external-link">sysfonts::font_add()</a></code>. * <strong>Graceful Fallback:</strong> If the font files are not found on your system or the required packages are missing, the theme will automatically and silently fall back to your system’s default <code>"serif"</code> font family.</p>
+</div>
+<div class="section level3">
+<h3 id="omitinclude-titles-inside-plot-plot_titles">Omit/Include Titles Inside Plot (<code>plot_titles</code>)<a class="anchor" aria-label="anchor" href="#omitinclude-titles-inside-plot-plot_titles"></a>
+</h3>
+<p>Depending on where you are presenting your charts, you may want to include titles within the image or handle them in the document text: * <strong>For General Presentations (<code>plot_titles = TRUE</code>):</strong> This is the default. The plot titles, subtitle, and caption are styled and rendered inside the image canvas itself. * <strong>For LaTeX/Quarto Manuscripts (<code>plot_titles = FALSE</code>):</strong> This hides the title, subtitle, and caption from the ggplot canvas, allowing you to specify them as metadata captions (e.g. <code>fig-cap</code> in Quarto or <code>\caption{}</code> in LaTeX) in the main document, which prevents duplicate titles and enables proper page layout.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Hide title elements within the plot canvas for manuscripts</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">year</span>, y <span class="op">=</span> <span class="va">value</span>, fill <span class="op">=</span> <span class="va">dim_race</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_ribbon.html" class="external-link">geom_area</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="reference/theme_educabr.html">theme_educabr</a></span><span class="op">(</span>plot_titles <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="reference/scale_educabr.html">scale_fill_educabr</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<hr>
+</div>
 </div>
 <div class="section level2">
 <h2 id="schema">Schema<a class="anchor" aria-label="anchor" href="#schema"></a>
@@ -332,14 +378,14 @@ provenance. Includes a bundled Shiny dashboard.
 <h2 id="related-work">Related work<a class="anchor" aria-label="anchor" href="#related-work"></a>
 </h2>
 <p><code>educabr2</code> is complementary to <a href="https://github.com/SidneyBissoli/educabR" class="external-link"><code>educabR</code></a> (Sidney Bissoli), which organises access <strong>by official source</strong> (<code>get_ideb()</code>, <code>get_enem()</code>, <code>get_censo_escolar()</code>, …). Here the axis is <strong>by theme and historical series</strong>: single indicators compiled across multiple sources over long time spans.</p>
-<p>Design inspirations: <a href="https://github.com/ipeaGIT/geobr" class="external-link"><code>geobr</code></a> (coherent function family), <a href="https://cran.r-project.org/package=PNADCperiods" class="external-link"><code>PNADCperiods</code></a> (embedded dashboard + methodological delivery), and the <a href="https://github.com/ipea/brverse" class="external-link"><code>brverse</code></a> ecosystem.</p>
+<p>Design inspirations: <a href="https://github.com/ipea/geobr" class="external-link"><code>geobr</code></a> (coherent function family), <a href="https://cran.r-project.org/package=PNADCperiods" class="external-link"><code>PNADCperiods</code></a> (embedded dashboard + methodological delivery), and the <a href="https://github.com/ipea/brverse" class="external-link"><code>brverse</code></a> ecosystem.</p>
 <hr>
 </div>
 <div class="section level2">
 <h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
 </h2>
 <p>Cite both the package (for the harmonisation work) and the <strong>originating sources</strong> for any data you actually use. The <code><a href="reference/educabr_cite.html">educabr_cite()</a></code> helper builds APA / BibTeX entries for every bundled source:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"educabr2"</span><span class="op">)</span>                              <span class="co"># cite the package</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/educabr_cite.html">educabr_cite</a></span><span class="op">(</span><span class="st">"kang_paese_felix_2021"</span><span class="op">)</span>            <span class="co"># cite one source</span></span>
@@ -369,18 +415,18 @@ provenance. Includes a bundled Shiny dashboard.
 </h2>
 <p>Se você usar este pacote em uma publicação, cite tanto o pacote quanto as fontes originais dos dados que utilizou. Para obter a entrada BibTeX ou a referência APA do pacote, use:</p>
 <p>If you use this package in a publication, cite both the package and the original data sources you drew from. To get the BibTeX entry or APA reference for the package, run:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"educabr2"</span><span class="op">)</span></span></code></pre></div>
 <p><strong>Referência sugerida / Suggested citation:</strong></p>
 <p>Mançano, T., Alcantara, V., &amp; Damião, A. (2026). <em>educabr2: Harmonized Historical Series on Brazilian Education</em> (R package version 0.1.0.9000). GitHub. <a href="https://github.com/mancano-tales/educabr2" class="external-link uri">https://github.com/mancano-tales/educabr2</a></p>
 <p><strong>BibTeX:</strong></p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode bibtex"><code class="sourceCode bibtex"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="va">@Manual</span>{<span class="ot">educabr2</span>,</span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>  <span class="dt">title</span>  = {educabr2: Harmonized Historical Series on Brazilian Education},</span>
-<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>  <span class="dt">author</span> = {Tales Mançano and Victor Alcantara and Artur Damião},</span>
-<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>  <span class="dt">year</span>   = {2026},</span>
-<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>  <span class="dt">note</span>   = {R package version 0.1.0.9000},</span>
-<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>  <span class="dt">url</span>    = {https://github.com/mancano-tales/educabr2},</span>
-<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bibtex"><code class="sourceCode bibtex"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="va">@Manual</span>{<span class="ot">educabr2</span>,</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>  <span class="dt">title</span>  = {educabr2: Harmonized Historical Series on Brazilian Education},</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>  <span class="dt">author</span> = {Tales Mançano and Victor Alcantara and Artur Damião},</span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>  <span class="dt">year</span>   = {2026},</span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>  <span class="dt">note</span>   = {R package version 0.1.0.9000},</span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>  <span class="dt">url</span>    = {https://github.com/mancano-tales/educabr2},</span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a>}</span></code></pre></div>
 <p>Cite also the <strong>originating sources</strong> for any data you actually use. The <code><a href="reference/educabr_cite.html">educabr_cite()</a></code> helper builds APA / BibTeX entries for every bundled source (see <a href="#citation">Citation</a> above).</p>
 <p>Um DOI Zenodo acompanhará o primeiro lançamento marcado com uma <em>tag</em> de versão. / A Zenodo DOI will accompany the first tagged release.</p>
 </div>
@@ -390,7 +436,7 @@ provenance. Includes a bundled Shiny dashboard.
 <ul class="list-unstyled">
 <li><a href="https://github.com/mancano-tales/educabr2/" class="external-link">Browse source code</a></li>
 <li><a href="https://github.com/mancano-tales/educabr2/issues" class="external-link">Report a bug</a></li>
-<li><a href="https://qx3hly-tales-man0ano.shinyapps.io/educabr/" class="external-link">Live dashboard (shinyapps.io)</a></li>
+<li><a href="https://qx3hly-tales-man0ano.shinyapps.io/educabr2/" class="external-link">Live dashboard (shinyapps.io)</a></li>
 <li><a href="https://github.com/mancano-tales/educabr2" class="external-link">Source on GitHub</a></li>
 <li><a href="https://github.com/mancano-tales/educabr2/issues" class="external-link">Report a bug</a></li>
 </ul>
@@ -437,7 +483,7 @@ provenance. Includes a bundled Shiny dashboard.
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>

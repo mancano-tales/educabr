@@ -29,6 +29,7 @@ a FGV-IBRE working paper that reconstructs the series from 1925 to
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/introduction.html">Introduction to educabr2</a></li>
     <li><a class="dropdown-item" href="../articles/introducao-pt.html">Introdução ao educabr2 (PT-BR)</a></li>
+    <li><a class="dropdown-item" href="../articles/visualization.html">The educabr2 visualization system</a></li>
   </ul></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-news" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">News</button>
@@ -39,7 +40,7 @@ a FGV-IBRE working paper that reconstructs the series from 1925 to
   </ul></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://qx3hly-tales-man0ano.shinyapps.io/educabr/" aria-label="Live dashboard"><span class="fa fa-chart-line"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://qx3hly-tales-man0ano.shinyapps.io/educabr2/" aria-label="Live dashboard"><span class="fa fa-chart-line"></span></a></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/mancano-tales/educabr2/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul></div>
 
@@ -107,7 +108,9 @@ Race and sub-national breakdowns are only available at <code>geo_level = "BR"</c
 
 <dt id="arg-source">source<a class="anchor" aria-label="anchor" href="#arg-source"></a></dt>
 <dd><p>Character vector of source keys. <code>NULL</code> returns all
-available sources (currently only <code>"walter_kang_2023"</code>).</p></dd>
+available sources (currently only <code>"walter_kang_2023"</code>). The alias
+<code>"walter_kang_2024"</code> (year of the peer-reviewed article) is accepted
+and resolves to the same source.</p></dd>
 
 
 <dt id="arg-wide">wide<a class="anchor" aria-label="anchor" href="#arg-wide"></a></dt>
@@ -188,7 +191,7 @@ averages).</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>

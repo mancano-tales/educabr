@@ -6,6 +6,64 @@ CRAN-readiness polish plus two new themes (public expenditure and
 grade-progression). No breaking changes to existing `get_*()` signatures
 or to `enrollment_kang_fgv` / `schooling_kang_fgv` contents.
 
+### CI and documentation convergence (2026-07-11, second round)
+
+- Fixed the failing CI: `showtext` and `sysfonts` (used conditionally by
+  [`theme_educabr()`](https://mancano-tales.github.io/educabr2/reference/theme_educabr.md))
+  are now declared in Suggests; `ggplot2` was promoted from Suggests to
+  Imports (the visualization components are public API); the
+  `%+replace%` operator is now namespace-qualified.
+- Fixed the failing pkgdown build: the visualization functions
+  (`theme_educabr`, `scale_educabr`, `scale_x_year_educabr`) are now
+  listed in a “Visualization” group of the reference index.
+- New vignette `visualization.Rmd` documenting the plotting toolkit
+  (theme, `plot_titles`, Okabe-Ito scales, historical year axis, palette
+  reference).
+- Vignettes updated to match the current package: five-function API
+  (with
+  [`get_attainment()`](https://mancano-tales.github.io/educabr2/reference/get_attainment.md)
+  and a new international-comparison case), six dashboard tabs, the
+  deduplication hierarchy, the `dimension` asymmetries,
+  [`educabr_cite()`](https://mancano-tales.github.io/educabr2/reference/educabr_cite.md)
+  demos, and the correct version.
+- README: six dashboard tabs, deduplication hierarchy and validation
+  notes, fixed moved/404 URLs; dashboard About now points to the
+  documentation site and mentions the visualization system and citation
+  helpers.
+
+### Visualization system (2026-07-11)
+
+- New exported scale
+  [`scale_x_year_educabr()`](https://mancano-tales.github.io/educabr2/reference/scale_x_year_educabr.md)
+  — a year-axis scale for the century-long historical series that are
+  the norm in the package. Break spacing follows the span of the data
+  plotted (every 20 years beyond six decades, every 10 years for spans
+  of 25–60 years, [`pretty()`](https://rdrr.io/r/base/pretty.html)
+  breaks below that); the first and last year present in the series are
+  always labelled, and grid breaks that would collide with those
+  extremes are dropped (tolerance proportional to the span).
+- The Shiny dashboard (live charts and the “View R code” snippets) now
+  uses the package’s own visualization system —
+  [`theme_educabr()`](https://mancano-tales.github.io/educabr2/reference/theme_educabr.md),
+  [`scale_colour_educabr()`](https://mancano-tales.github.io/educabr2/reference/scale_educabr.md)
+  (Okabe-Ito, applied where the colour dimension has at most 8 levels),
+  and
+  [`scale_x_year_educabr()`](https://mancano-tales.github.io/educabr2/reference/scale_x_year_educabr.md)
+  — instead of
+  [`theme_minimal()`](https://ggplot2.tidyverse.org/reference/ggtheme.html)
+  and generic pretty breaks.
+
+### Source-key aliases (2026-07-11)
+
+- `walter_kang_2024` is now accepted everywhere `walter_kang_2023` is
+  (all `get_*()` source filters and
+  [`educabr_cite()`](https://mancano-tales.github.io/educabr2/reference/educabr_cite.md)),
+  resolving to the same source. The peer-reviewed article is Walter &
+  Kang (2024, *Economic History of Developing Regions*); the legacy
+  `2023` key — minted when the source was still an FGV-IBRE working
+  paper — remains the key carried by the data until the physical rename
+  planned in `planning/cran-checklist.md`.
+
 ### CI / build
 
 - Renamed vignettes from `01-introduction.Rmd` / `02-introducao-pt.Rmd`

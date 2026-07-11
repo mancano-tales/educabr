@@ -27,6 +27,11 @@ available in analytic format:
 - **Grade-progression ratio (GDR6)** — 1955 to 2010, BR + 20 UFs, a
   proxy for early-primary retention drawn from Kang, Paese & Felix
   (2021).
+- **International educational attainment** — 1870 to 2010, 111
+  countries, shares of the population aged 15-64 that completed primary,
+  secondary and tertiary education, with sex breakdowns (Lee & Lee 2016)
+  — so the Brazilian trajectory can be read against the world record
+  without leaving the package.
 
 Every transformation is auditable: each output row carries a canonical
 `source` key (catalogued in `inst/dict/vocabularies/sources.yaml`) and a
@@ -40,14 +45,14 @@ Every transformation is auditable: each output row carries a canonical
 remotes::install_github("mancano-tales/educabr2")
 ```
 
-## A four-function API
+## A five-function API
 
 The public interface is intentionally minimal — one function per theme,
 all returning tibbles in the same canonical long schema:
 
 ``` r
 
-# Schemas of the four return shapes
+# Schemas of the five return shapes
 str(get_enrollment(level = "fundamental", year = 1950))
 #> tibble [2 × 16] (S3: tbl_df/tbl/data.frame)
 #>  $ year            : int [1:2] 1950 1950
@@ -66,6 +71,11 @@ str(get_enrollment(level = "fundamental", year = 1950))
 #>  $ source          : chr [1:2] "kang_paese_felix_2021" "kang_paese_felix_2021"
 #>  $ source_note     : chr [1:2] "Kang, Paese & Felix (2021). RHE 39(2):191-218. doi:10.1017/S0212610921000112" "Kang, Paese & Felix (2021). RHE 39(2):191-218. doi:10.1017/S0212610921000112"
 #>  $ is_derived      : logi [1:2] FALSE FALSE
+#>  - attr(*, "educabr_meta")=List of 4
+#>   ..$ build_script   : chr "data-raw/01_build_enrollment_kang_fgv.R"
+#>   ..$ built_at       : POSIXct[1:1], format: "2026-05-18 09:38:50"
+#>   ..$ primary_sources: chr [1:4] "kang_menetrier_comim_2024" "kang_paese_felix_2021" "kang_paese_felix_2021" "kang_menetrier_2024"
+#>   ..$ raw_files      : chr [1:4] "data-raw/sources/kang_fgv_ibre_2023/1._matricula_primario_1871_2010_v_abril2023.xlsx" "data-raw/sources/kang_fgv_ibre_2023/2._matriculas_txmatriculas_porcor_1960_2010_v_abril2023.xlsx" "data-raw/sources/kang_fgv_ibre_2023/4._matricula_txmatriculas_1933_2010_v_abril2023.xlsx" "data-raw/sources/kang_fgv_ibre_2023/6._matricula_txmatriculas_estado_1955_2010_v_abril2023.xlsx"
 str(get_schooling(year = 1950))
 #> tibble [1 × 12] (S3: tbl_df/tbl/data.frame)
 #>  $ year       : int 1950
@@ -79,12 +89,12 @@ str(get_schooling(year = 1950))
 #>  $ value      : num 1.59
 #>  $ unit       : chr "years"
 #>  $ source     : chr "walter_kang_2023"
-#>  $ source_note: chr "Walter, J., & Kang, T. H. (2023). A new dataset of average years of schooling in Brazil, 1925-2015. FGV-IBRE working paper."
+#>  $ source_note: chr "Walter, J., & Kang, T. H. (2024). A new dataset of average years of schooling in Brazil, 1925-2015. Economic Hi"| __truncated__
 #>  - attr(*, "educabr_meta")=List of 5
 #>   ..$ build_script  : chr "data-raw/02_build_schooling_kang_fgv.R"
-#>   ..$ built_at      : POSIXct[1:1], format: "2026-05-17 19:08:24"
+#>   ..$ built_at      : POSIXct[1:1], format: "2026-07-10 01:00:11"
 #>   ..$ primary_source: chr "walter_kang_2023"
-#>   ..$ citation      : chr "Walter, J., & Kang, T. H. (2023). A new dataset of average years of schooling in Brazil, 1925-2015. FGV-IBRE working paper."
+#>   ..$ citation      : chr "Walter, J., & Kang, T. H. (2024). A new dataset of average years of schooling in Brazil, 1925-2015. Economic Hi"| __truncated__
 #>   ..$ raw_files     : chr "data-raw/sources/kang_fgv_ibre_2023/3._anos_estudo_1925_2015_v_abril2023.xlsx"
 str(get_expenditure(level = "total", indicator = "share_gdp", year = 1950))
 #> tibble [1 × 13] (S3: tbl_df/tbl/data.frame)
@@ -128,13 +138,51 @@ str(get_progression(year = 1980))
 #>   ..$ primary_source: chr "kang_paese_felix_2021"
 #>   ..$ citation      : chr "Kang, Paese & Felix (2021). RHE 39(2):191-218. doi:10.1017/S0212610921000112"
 #>   ..$ raw_files     : chr "data-raw/sources/kang_fgv_ibre_2023/7._gdr6_1955_2010_v_abril2023.xlsx"
+str(get_attainment(geo = "BRA", year = 1950))
+#> tibble [3 × 12] (S3: tbl_df/tbl/data.frame)
+#>  $ year       : int [1:3] 1950 1950 1950
+#>  $ geo_level  : chr [1:3] "country" "country" "country"
+#>  $ geo_code   : chr [1:3] "BRA" "BRA" "BRA"
+#>  $ geo_name   : chr [1:3] "Brazil" "Brazil" "Brazil"
+#>   ..- attr(*, "label")= chr "Country name"
+#>   ..- attr(*, "format.stata")= chr "%20s"
+#>  $ level      : chr [1:3] "primary" "secondary" "tertiary"
+#>  $ dim_sex    : chr [1:3] "total" "total" "total"
+#>  $ age_group  : chr [1:3] "15-64" "15-64" "15-64"
+#>  $ indicator  : chr [1:3] "attainment_share_completed" "attainment_share_completed" "attainment_share_completed"
+#>  $ value      : num [1:3] 23.611 4.345 0.519
+#>  $ unit       : chr [1:3] "percent" "percent" "percent"
+#>  $ source     : chr [1:3] "lee_lee_2016" "lee_lee_2016" "lee_lee_2016"
+#>  $ source_note: chr [1:3] "Lee, J.-W., & Lee, H. (2016). Human capital in the long run. Journal of Development Economics, 122, 147-169. do"| __truncated__ "Lee, J.-W., & Lee, H. (2016). Human capital in the long run. Journal of Development Economics, 122, 147-169. do"| __truncated__ "Lee, J.-W., & Lee, H. (2016). Human capital in the long run. Journal of Development Economics, 122, 147-169. do"| __truncated__
+#>  - attr(*, "educabr_meta")=List of 5
+#>   ..$ build_script  : chr "data-raw/06_build_lee_lee_2016.R"
+#>   ..$ built_at      : POSIXct[1:1], format: "2026-05-25 16:54:26"
+#>   ..$ primary_source: chr "lee_lee_2016"
+#>   ..$ citation      : chr "Lee, J.-W., & Lee, H. (2016). Human capital in the long run. Journal of Development Economics, 122, 147-169. do"| __truncated__
+#>   ..$ raw_files     : chr "https://barrolee.github.io/BarroLeeDataSet/LeeLee/LeeLee_v1.dta"
 ```
 
-All four return long-format tibbles that follow the same canonical
+All five return long-format tibbles that follow the same canonical
 schema (`inst/dict/schema.yaml`), with columns for the geographic unit,
 the inequality dimension (race, sex, …), the source, and the value. The
 shared filters (`year`, `geo_level`, `geo`, `source`, `wide`, `lang`)
-work identically across the family.
+work identically across the family. Because every function returns the
+same column set (constant-valued columns are kept where a source has no
+breakdown), results from different themes can be stacked directly with
+[`rbind()`](https://rdrr.io/r/base/cbind.html)/`bind_rows()`.
+
+Note that the `dimension` argument is deliberately asymmetric:
+[`get_schooling()`](https://mancano-tales.github.io/educabr2/reference/get_schooling.md)
+offers race *and* sex;
+[`get_enrollment()`](https://mancano-tales.github.io/educabr2/reference/get_enrollment.md)
+race only;
+[`get_attainment()`](https://mancano-tales.github.io/educabr2/reference/get_attainment.md)
+sex only;
+[`get_expenditure()`](https://mancano-tales.github.io/educabr2/reference/get_expenditure.md)
+and
+[`get_progression()`](https://mancano-tales.github.io/educabr2/reference/get_progression.md)
+none. These asymmetries reproduce the physical limits of the historical
+sources, not limitations of the package.
 
 ## Case 1 — gross enrollment rate by race/colour
 
@@ -205,6 +253,14 @@ estimates diverge — passing `source = "..."` to
 [`get_enrollment()`](https://mancano-tales.github.io/educabr2/reference/get_enrollment.md)
 is the recommended way to pin down a single series for secondary
 analysis.
+
+When a single continuous series is needed instead of the full
+side-by-side panel, the package’s documented **deduplication hierarchy**
+gives the recommended order of precedence for overlapping years: INEP
+CENSUP microdata (2009-2024), then the INEP statistical synopses
+(1995-2008), then Kang, Paese & Felix (1990-1994), then Maduro Junior,
+then Durham, and finally the IBGE *Statistics of the 20th Century*. The
+most disaggregated and official source available always wins.
 
 ## Case 3 — the reconstructed totals problem (2000-2008)
 
@@ -364,11 +420,80 @@ reforms.
 > at 1988-1990 and 1994 due to transitions in the official grade
 > structure.
 
+## Case 7 — Brazil in international perspective
+
+The Lee & Lee (2016) panel lets you place the Brazilian expansion
+against comparators without leaving the package:
+
+``` r
+
+att <- get_attainment(
+  level = "tertiary",
+  geo   = c("BRA", "ARG", "KOR", "USA"),
+  year  = c(1950, 2010)
+)
+
+att[att$year %in% c(1950, 1980, 2010),
+    c("year", "geo_code", "value")]
+#> # A tibble: 12 × 3
+#>     year geo_code  value
+#>    <int> <chr>     <dbl>
+#>  1  1950 ARG       0.737
+#>  2  1980 ARG       3.71 
+#>  3  2010 ARG       2.31 
+#>  4  1950 BRA       0.519
+#>  5  1980 BRA       2.90 
+#>  6  2010 BRA       6.59 
+#>  7  1950 KOR       0.748
+#>  8  1980 KOR       4.89 
+#>  9  2010 KOR      33.6  
+#> 10  1950 USA       7.16 
+#> 11  1980 USA      17.9  
+#> 12  2010 USA      27.5
+```
+
+## The built-in visualization system
+
+The package ships a plotting toolkit designed after Kieran Healy’s *Data
+Visualization* principles, so that a query can become a
+publication-ready figure in three lines:
+
+- [`theme_educabr()`](https://mancano-tales.github.io/educabr2/reference/theme_educabr.md)
+  — a serif, minimal theme; with `plot_titles = FALSE` it strips
+  in-canvas titles for LaTeX/Quarto manuscripts where captions live in
+  the document. If a local TinyTeX installation is found (and
+  `showtext`/`sysfonts` are installed), the LaTeX font Latin Modern
+  Roman is registered automatically.
+- [`scale_colour_educabr()`](https://mancano-tales.github.io/educabr2/reference/scale_educabr.md)
+  /
+  [`scale_fill_educabr()`](https://mancano-tales.github.io/educabr2/reference/scale_educabr.md)
+  — the colorblind-safe Okabe-Ito palette.
+- `scale_x_year_educabr(years)` — a year axis for century-long series:
+  break spacing follows the span of the data, and the first and last
+  years present are always labelled.
+
+``` r
+
+library(ggplot2)
+
+df <- get_schooling(geo_level = "BR", dimension = "sex")
+
+ggplot(df, aes(year, value, colour = dim_sex)) +
+  geom_line(linewidth = 0.9) +
+  scale_colour_educabr(name = NULL) +
+  scale_x_year_educabr(df$year) +
+  theme_educabr() +
+  labs(x = NULL, y = "Mean years of schooling",
+       title = "The gender gap in schooling reversed over the 20th century")
+```
+
+![](introduction_files/figure-html/unnamed-chunk-10-1.png)
+
 ## Interactive dashboard
 
-The package ships a Shiny dashboard with **five tabs** — one per theme
+The package ships a Shiny dashboard with **six tabs** — one per theme
 (Enrollment, Tertiary Education, Educational Attainment, Public
-Expenditure, Grade Progression):
+Expenditure, Grade Progression, International Comparison):
 
 ``` r
 
@@ -376,10 +501,12 @@ educabr2::run_dashboard()
 ```
 
 The dashboard replicates the multi-source tertiary comparison and the
-new expenditure / progression series interactively. Each tab has a
-**“View R code”** button that emits the `educabr2` + `ggplot2` snippet
-needed to reproduce the visualisation in your local R session — a direct
-bridge between dashboard exploration and reproducible scripted analysis.
+expenditure / progression / international series interactively. Each tab
+has a **“View R code”** button that emits the `educabr2` + `ggplot2`
+snippet needed to reproduce the visualisation in your local R session —
+styled with the package’s own visualization system described above — a
+direct bridge between dashboard exploration and reproducible scripted
+analysis.
 
 ## Sources and citation
 
@@ -411,8 +538,25 @@ primary tertiary sources are:
 - INEP/MEC. *Microdados do Censo da Educação Superior* (2009-2024).
 - INEP/MEC. *CENSUP Power BI panel* (2010-2024).
 
+The
+[`educabr_cite()`](https://mancano-tales.github.io/educabr2/reference/educabr_cite.md)
+helper turns any source key (or the `source` column of a query result)
+into a ready-to-paste reference:
+
+``` r
+
+educabr_cite("kang_paese_felix_2021", style = "text")
+#> [1] "(2021). \"Kang, T. H., Paese, L. H. Z., & Felix, N. F. A. (2021). Late\nand unequal: Enrolments and retention in Brazilian education,\n1933-2010. Revista de Historia Económica / Journal of Iberian and Latin\nAmerican Economic History, 39(2), 191–218.\"\ndoi:10.1017/S0212610921000112\n<https://doi.org/10.1017/S0212610921000112>.\n<https://doi.org/10.1017/S0212610921000112>."
+```
+
+Use `style = "bibtex"` for a BibTeX entry, or call
+[`educabr_cite()`](https://mancano-tales.github.io/educabr2/reference/educabr_cite.md)
+with no arguments to list all bundled sources. Please cite **both** the
+package (for the harmonization) and the original compilations (for the
+archival work that produced the numbers).
+
 To cite the package itself:
 
 > Mançano, T. (2026). *educabr2: Harmonized Historical Series on
-> Brazilian Education* (version 0.0.0.9000).
+> Brazilian Education* (version 0.1.0).
 > <https://github.com/mancano-tales/educabr2>
