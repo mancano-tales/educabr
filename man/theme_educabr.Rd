@@ -4,12 +4,18 @@
 \alias{theme_educabr}
 \title{educabr2 Visualization Theme}
 \usage{
-theme_educabr(base_size = 9.5, base_family = "serif")
+theme_educabr(base_size = 9.5, base_family = "serif", plot_titles = TRUE)
 }
 \arguments{
 \item{base_size}{Base font size.}
 
 \item{base_family}{Base font family. Defaults to "serif" if Latin Modern is unavailable.}
+
+\item{plot_titles}{Logical. If \code{TRUE} (default), standard titles, subtitles, and captions
+are styled and displayed inside the plot image. If \code{FALSE}, titles, subtitles, and captions
+are completely removed (\code{element_blank()}). This is highly recommended for academic papers,
+LaTeX, or Quarto documents where captions and source notes are managed in the main markdown/TeX
+text (e.g., using \code{fig-cap} or \code{fignote} environments) rather than baked into the graphic file.}
 }
 \value{
 A ggplot2 theme object.
@@ -22,6 +28,17 @@ This theme is designed to produce beautiful, standardized, and colorblind-safe
 MA Thesis by Tales Mançano (2026), ensuring that plots generated via this
 package meet rigorous academic presentation standards.
 }
+\section{Font Registration}{
+
+The theme attempts to automatically load and register the LaTeX-standard
+\strong{Latin Modern Roman} font family to match academic publishing standards.
+It queries the system's local TinyTeX installation (checking standard directories in
+\verb{\%APPDATA\%} on Windows and \verb{~/.Library} on Unix/macOS). If the font files
+(e.g. \code{lmroman10-regular.otf}) are found and the \code{showtext} and \code{sysfonts} packages are
+installed, it registers them dynamically. If the font files are not found or packages
+are missing, the theme falls back gracefully to the system's default \code{"serif"} family.
+}
+
 \examples{
 \dontrun{
 library(ggplot2)
@@ -29,9 +46,17 @@ library(educabr2)
 
 df <- get_enrollment(level = "superior", dimension = "race")
 
+# Standard plot with titles inside the image (default)
 ggplot(df, aes(x = year, y = value, fill = dim_race)) +
   geom_area() +
-  theme_educabr() +
+  labs(title = "Higher Education by Race", subtitle = "1960-2010") +
+  theme_educabr(plot_titles = TRUE) +
+  scale_fill_educabr()
+
+# Academic plot without titles inside the image
+ggplot(df, aes(x = year, y = value, fill = dim_race)) +
+  geom_area() +
+  theme_educabr(plot_titles = FALSE) +
   scale_fill_educabr()
 }
 }

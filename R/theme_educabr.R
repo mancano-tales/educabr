@@ -7,8 +7,22 @@
 #' MA Thesis by Tales Mançano (2026), ensuring that plots generated via this
 #' package meet rigorous academic presentation standards.
 #'
+#' @section Font Registration:
+#' The theme attempts to automatically load and register the LaTeX-standard
+#' **Latin Modern Roman** font family to match academic publishing standards.
+#' It queries the system's local TinyTeX installation (checking standard directories in
+#' `%APPDATA%` on Windows and `~/.Library` on Unix/macOS). If the font files
+#' (e.g. `lmroman10-regular.otf`) are found and the `showtext` and `sysfonts` packages are
+#' installed, it registers them dynamically. If the font files are not found or packages
+#' are missing, the theme falls back gracefully to the system's default `"serif"` family.
+#'
 #' @param base_size Base font size.
 #' @param base_family Base font family. Defaults to "serif" if Latin Modern is unavailable.
+#' @param plot_titles Logical. If `TRUE` (default), standard titles, subtitles, and captions
+#'   are styled and displayed inside the plot image. If `FALSE`, titles, subtitles, and captions
+#'   are completely removed (`element_blank()`). This is highly recommended for academic papers,
+#'   LaTeX, or Quarto documents where captions and source notes are managed in the main markdown/TeX
+#'   text (e.g., using `fig-cap` or `fignote` environments) rather than baked into the graphic file.
 #'
 #' @return A ggplot2 theme object.
 #'
@@ -29,20 +43,54 @@
 #'
 #' df <- get_enrollment(level = "superior", dimension = "race")
 #'
+#' # Standard plot with titles inside the image (default)
 #' ggplot(df, aes(x = year, y = value, fill = dim_race)) +
 #'   geom_area() +
-#'   theme_educabr() +
+#'   labs(title = "Higher Education by Race", subtitle = "1960-2010") +
+#'   theme_educabr(plot_titles = TRUE) +
+#'   scale_fill_educabr()
+#'
+#' # Academic plot without titles inside the image
+#' ggplot(df, aes(x = year, y = value, fill = dim_race)) +
+#'   geom_area() +
+#'   theme_educabr(plot_titles = FALSE) +
 #'   scale_fill_educabr()
 #' }
-theme_educabr <- function(base_size = 9.5, base_family = "serif") {
-  # Attempt to use Latin Modern if showtext is loaded and font is added,
-  # otherwise fall back to serif.
-  if (requireNamespace("showtext", quietly = TRUE) &&
-      "LM Roman" %in% sysfonts::font_families()) {
-    base_family <- "LM Roman"
+theme_educabr <- function(base_size = 9.5, base_family = "serif", plot_titles = TRUE) {
+  # Attempt to dynamically load and register Latin Modern Roman from TinyTeX
+  if (requireNamespace("showtext", quietly = TRUE) && requireNamespace("sysfonts", quietly = TRUE)) {
+    if (!"LM Roman" %in% sysfonts::font_families()) {
+      # Try to locate TinyTeX's opentype fonts on Windows/Linux/macOS
+      lm_dir <- file.path(Sys.getenv("APPDATA"), "TinyTeX", "texmf-dist",
+                          "fonts", "opentype", "public", "lm")
+      
+      # Alternative path check (e.g. Linux / macOS standard tinytex)
+      if (!dir.exists(lm_dir)) {
+        lm_dir <- file.path(Sys.getenv("HOME"), ".Library", "TinyTeX", "texmf-dist",
+                            "fonts", "opentype", "public", "lm")
+      }
+      
+      lm_reg <- file.path(lm_dir, "lmroman10-regular.otf")
+      if (file.exists(lm_reg)) {
+        tryCatch({
+          sysfonts::font_add("LM Roman",
+            regular    = lm_reg,
+            bold       = sub("regular", "bold",       lm_reg, fixed = TRUE),
+            italic     = sub("regular", "italic",     lm_reg, fixed = TRUE),
+            bolditalic = sub("regular", "bolditalic", lm_reg, fixed = TRUE)
+          )
+          showtext::showtext_auto()
+          base_family <- "LM Roman"
+        }, error = function(e) {
+          # Silently fall back to serif if registration fails
+        })
+      }
+    } else {
+      base_family <- "LM Roman"
+    }
   }
 
-  ggplot2::theme_minimal(base_size = base_size, base_family = base_family) %+replace%
+  theme_obj <- ggplot2::theme_minimal(base_size = base_size, base_family = base_family) %+replace%
     ggplot2::theme(
       plot.title         = ggplot2::element_text(face = "bold",
                                                  size = base_size + 1.5,
@@ -68,6 +116,17 @@ theme_educabr <- function(base_size = 9.5, base_family = "serif") {
       legend.title       = ggplot2::element_text(size = base_size - 1, face = "bold"),
       plot.margin        = ggplot2::margin(8, 8, 8, 8)
     )
+
+  # Strip title, subtitle, and caption if plot_titles is FALSE
+  if (!plot_titles) {
+    theme_obj <- theme_obj + ggplot2::theme(
+      plot.title    = ggplot2::element_blank(),
+      plot.subtitle = ggplot2::element_blank(),
+      plot.caption  = ggplot2::element_blank()
+    )
+  }
+
+  return(theme_obj)
 }
 
 # The Okabe-Ito colorblind-safe palette

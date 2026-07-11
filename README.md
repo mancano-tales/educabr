@@ -211,6 +211,48 @@ differences, applies per-source filters and translates labels.
 
 ---
 
+## Data Visualization
+
+The `educabr2` package includes a built-in visualization system based on Kieran Healy's *Data Visualization* (2018/2026) design principles. It provides a consistent aesthetic theme and colorblind-safe palettes matching the ongoing MA Thesis *The Politics of Reforming Tertiary Education* (Tales Mançano, 2026).
+
+To style your plots, use the `theme_educabr()` and `scale_fill_educabr()` / `scale_colour_educabr()` functions:
+
+```r
+library(ggplot2)
+library(educabr2)
+
+# Query some data
+df <- get_enrollment(level = "superior", dimension = "race")
+
+# Build a plot
+ggplot(df, aes(x = year, y = value, fill = dim_race)) +
+  geom_area() +
+  theme_educabr() +
+  scale_fill_educabr()
+```
+
+### Font Auto-Registration (TinyTeX & Latin Modern)
+
+To match formal academic publications, the theme tries to use the standard LaTeX font family **Latin Modern Roman**.
+* **Automatic Registration:** If you have **TinyTeX** installed on your system (e.g. via `tinytex::install_tinytex()`) and have the `showtext` and `sysfonts` R packages installed, `theme_educabr()` will automatically locate the `.otf` font files in your TinyTeX directories and load them dynamically using `sysfonts::font_add()`.
+* **Graceful Fallback:** If the font files are not found on your system or the required packages are missing, the theme will automatically and silently fall back to your system's default `"serif"` font family.
+
+### Omit/Include Titles Inside Plot (`plot_titles`)
+
+Depending on where you are presenting your charts, you may want to include titles within the image or handle them in the document text:
+* **For General Presentations (`plot_titles = TRUE`):** This is the default. The plot titles, subtitle, and caption are styled and rendered inside the image canvas itself.
+* **For LaTeX/Quarto Manuscripts (`plot_titles = FALSE`):** This hides the title, subtitle, and caption from the ggplot canvas, allowing you to specify them as metadata captions (e.g. `fig-cap` in Quarto or `\caption{}` in LaTeX) in the main document, which prevents duplicate titles and enables proper page layout.
+
+```r
+# Hide title elements within the plot canvas for manuscripts
+ggplot(df, aes(x = year, y = value, fill = dim_race)) +
+  geom_area() +
+  theme_educabr(plot_titles = FALSE) +
+  scale_fill_educabr()
+```
+
+---
+
 ## Schema
 
 All `get_*()` functions return a `tibble` in the canonical tidy-long
