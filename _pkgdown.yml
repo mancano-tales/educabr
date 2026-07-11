@@ -77,7 +77,8 @@ reference:
     scales, and a year axis designed for century-long historical series.
   contents:
   - theme_educabr
-  - scale_educabr
+  - scale_colour_educabr
+  - scale_fill_educabr
   - scale_x_year_educabr
 
 - title: Dashboard
