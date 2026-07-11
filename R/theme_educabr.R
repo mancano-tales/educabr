@@ -141,6 +141,78 @@ theme_educabr <- function(base_size = 9.5, base_family = "serif", plot_titles = 
   "#000000"   # black
 )
 
+#' Year Axis Scale for Historical Series
+#'
+#' A continuous x-axis scale for integer-year time series that picks break
+#' spacing according to the span of the data, so that century-long historical
+#' series (the norm in `educabr2`) get readable, evenly spaced year labels.
+#' The first and last years actually present in the series are always
+#' labelled, and any grid break that would collide with those extremes is
+#' dropped in their favour.
+#'
+#' Break spacing by span of the series: more than 60 years, every 20 years;
+#' 25 to 60 years, every 10 years; under 25 years, `pretty()` breaks. Labels
+#' are always four-digit years.
+#'
+#' @param years Numeric vector with the years actually plotted (typically
+#'   `data$year`). Used to compute the span and anchor the first/last labels.
+#' @param ... Additional arguments passed on to [ggplot2::scale_x_continuous()].
+#'
+#' @return A ggplot2 continuous position scale.
+#'
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' library(ggplot2)
+#' library(educabr2)
+#'
+#' df <- get_enrollment(level = "superior", network = "total",
+#'                      modality = "total", indicator = "count")
+#'
+#' ggplot(df, aes(x = year, y = value, colour = source)) +
+#'   geom_line() +
+#'   scale_x_year_educabr(df$year) +
+#'   theme_educabr()
+#' }
+scale_x_year_educabr <- function(years, ...) {
+  years <- years[!is.na(years)]
+  min_y <- as.integer(min(years))
+  max_y <- as.integer(max(years))
+  span  <- max_y - min_y
+
+  if (span > 60) {
+    step <- 20
+  } else if (span >= 25) {
+    step <- 10
+  } else {
+    step <- NULL
+  }
+
+  if (is.null(step)) {
+    grid <- pretty(c(min_y, max_y))
+    grid <- grid[grid == floor(grid)]
+  } else {
+    grid <- seq(ceiling(min_y / step) * step, floor(max_y / step) * step,
+                by = step)
+  }
+
+  # The extremes are always labelled; a grid break too close to an extreme is
+  # dropped in its favour so the labels never collide. "Too close" scales
+  # with the span (4% of it, at least 2 years) because on a century-long axis
+  # even labels 4 years apart overlap physically.
+  tol  <- max(2, span * 0.04)
+  grid <- grid[abs(grid - min_y) > tol & abs(grid - max_y) > tol]
+
+  breaks <- sort(unique(c(grid, min_y, max_y)))
+
+  ggplot2::scale_x_continuous(
+    breaks = breaks,
+    labels = function(x) sprintf("%d", as.integer(x)),
+    ...
+  )
+}
+
 #' educabr2 Color Scales (Okabe-Ito)
 #'
 #' Colorblind-safe color scales for `educabr2` plots, based on the Okabe-Ito palette.

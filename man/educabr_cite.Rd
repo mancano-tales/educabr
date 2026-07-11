@@ -11,7 +11,10 @@ educabr_cite(source_key = NULL, style = c("bibentry", "text", "bibtex"))
 \code{"kang_paese_felix_2021"}, \code{"walter_kang_2023"}). \code{NULL} (default)
 returns citations for \strong{all} sources. To discover which sources
 contributed rows to a particular query, inspect the \code{source} column
-of the tibble returned by \code{\link[=get_enrollment]{get_enrollment()}} or \code{\link[=get_schooling]{get_schooling()}}.}
+of the tibble returned by \code{\link[=get_enrollment]{get_enrollment()}} or \code{\link[=get_schooling]{get_schooling()}}.
+The alias \code{"walter_kang_2024"} (the year of the peer-reviewed
+article) is accepted and resolves to the same source as
+\code{"walter_kang_2023"} (the legacy key still carried by the data).}
 
 \item{style}{One of:
 \itemize{

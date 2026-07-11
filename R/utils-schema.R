@@ -1,3 +1,30 @@
+#' Source-key aliases (canonical name -> legacy key carried by the data)
+#'
+#' Walter & Kang circulated as a 2023 FGV-IBRE working paper when the
+#' internal key was minted, but the peer-reviewed article came out in 2024
+#' (Economic History of Developing Regions). Until the physical rename of
+#' the .rda/ETL key (post-defense), both spellings must resolve to the
+#' legacy key that the data rows still carry.
+#' @noRd
+.SOURCE_KEY_ALIASES <- c(
+  "walter_kang_2024" = "walter_kang_2023"
+)
+
+#' Normalise user-supplied source keys to the keys carried by the data.
+#'
+#' Accepts the canonical (new) spelling of aliased keys and maps it to the
+#' legacy key present in the bundled datasets, leaving all other keys
+#' untouched. `NULL` passes through so "no source filter" keeps meaning
+#' "all sources".
+#' @noRd
+.normalise_source_keys <- function(source) {
+  if (is.null(source)) return(NULL)
+  source <- as.character(source)
+  hits <- source %in% names(.SOURCE_KEY_ALIASES)
+  source[hits] <- unname(.SOURCE_KEY_ALIASES[source[hits]])
+  unique(source)
+}
+
 #' Load the canonical educabr2 schema.
 #'
 #' Reads `inst/dict/schema.yaml` and returns the parsed content. Falls

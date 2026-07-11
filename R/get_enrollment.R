@@ -240,7 +240,7 @@ get_enrollment <- function(level            = NULL,
   }
 
   if (!is.null(source)) {
-    src_match <- data$source %in% as.character(source)
+    src_match <- data$source %in% .normalise_source_keys(source)
     if (isTRUE(include_derived)) {
       # Derived rows carry a composite source key (e.g. "a+b") that won't
       # match any single-source entry — exempt them from this filter so

@@ -19,6 +19,12 @@ test_that("educabr_cite errors on unknown key with helpful message", {
   expect_error(educabr_cite("not_a_real_source"), "Unknown source")
 })
 
+test_that("educabr_cite accepts the walter_kang_2024 alias", {
+  legacy <- educabr_cite("walter_kang_2023")
+  alias  <- educabr_cite("walter_kang_2024")
+  expect_identical(format(alias), format(legacy))
+})
+
 test_that("educabr_cite carries DOI when the YAML has one", {
   bib <- educabr_cite("kang_paese_felix_2021")
   expect_equal(bib$doi, "10.1017/S0212610921000112")

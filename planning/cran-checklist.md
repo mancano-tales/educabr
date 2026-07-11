@@ -92,3 +92,20 @@ submission here. Reset for future submissions.
 - [Writing R Extensions](https://cran.r-project.org/doc/manuals/R-exts.html)
 - [CRAN Repository Policy](https://cran.r-project.org/web/packages/policies.html)
 - Hadley Wickham, *R Packages* (2e) — ch. "Releasing to CRAN"
+
+
+## Post-defense data QA (added 2026-07-11)
+
+- [ ] **Dedup `inep_sinopse_censup` total/1999** — `enrollment_tertiary`
+      carries TWO rows for year 1999 / level superior / network total /
+      institution_type total (identical values, differing only in
+      `source_note`). Harmless for filtered plots but violates the
+      primary-key expectation. Fix in
+      `data-raw/03_build_enrollment_tertiary.R` and rebuild the .rda.
+- [ ] **Physical rename `walter_kang_2023` → `walter_kang_2024`** — the
+      peer-reviewed article is 2024 (Economic History of Developing
+      Regions). A backward-compatible alias was added on 2026-07-11
+      (`.normalise_source_keys()` in `R/utils-schema.R`; both keys work
+      in every `get_*()` and in `educabr_cite()`). The full rename of
+      the YAML key, ETL `SOURCE_KEY`, .rda contents, docs, and tests —
+      keeping the 2023 alias — is deferred to post-defense.

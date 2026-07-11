@@ -15,6 +15,9 @@
 #'   returns citations for **all** sources. To discover which sources
 #'   contributed rows to a particular query, inspect the `source` column
 #'   of the tibble returned by [get_enrollment()] or [get_schooling()].
+#'   The alias `"walter_kang_2024"` (the year of the peer-reviewed
+#'   article) is accepted and resolves to the same source as
+#'   `"walter_kang_2023"` (the legacy key still carried by the data).
 #' @param style One of:
 #'   * `"bibentry"` (default) — a [utils::bibentry()] object you can
 #'     further format via [utils::toBibtex()] or [format()];
@@ -55,7 +58,7 @@ educabr_cite <- function(source_key = NULL,
   sources <- .load_sources_vocab()
 
   if (is.null(source_key)) source_key <- names(sources)
-  source_key <- as.character(source_key)
+  source_key <- .normalise_source_keys(source_key)
 
   unknown <- setdiff(source_key, names(sources))
   if (length(unknown)) {

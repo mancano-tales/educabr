@@ -1,10 +1,16 @@
-# educabr2 dashboard — v0.4
+# educabr2 dashboard — v0.5
 #
-# Three-theme navbar (UI in English):
-#   * Enrollment (Kang fundamental/medio/superior, simple)
+# Six-tab navbar (UI in English):
+#   * Enrollment (Kang fundamental/medio/superior)
 #   * Tertiary Education (multi-source comparison, 1907-2024)
 #   * Educational Attainment (Walter & Kang mean years of schooling)
-# Consumes only the public API: get_enrollment() and get_schooling().
+#   * Public Expenditure (Kang & Menetrier share of GDP, per student, ratios)
+#   * Grade Progression (GDR6, Kang, Paese & Felix)
+#   * International Comparison (Lee & Lee 2016 attainment shares)
+# Consumes only the public API (get_enrollment(), get_schooling(),
+# get_expenditure(), get_progression(), get_attainment()) and the package's
+# visualization system (theme_educabr(), scale_colour_educabr(),
+# scale_x_year_educabr()).
 #
 # INSTALLATION
 #   educabr2 is not on CRAN. Install from GitHub before running locally:
@@ -342,7 +348,9 @@ show_code_modal <- function(title, code_text) {
     tags$p(tags$small(
       style = "color: #555;",
       "Copy the snippet below into your R session to reproduce the interactive chart locally. ",
-      "Uses the public {educabr2} API plus ggplot2 + plotly. ",
+      "Uses the public {educabr2} API plus ggplot2 + plotly, styled with the package's ",
+      "built-in visualization system (theme_educabr(), Okabe-Ito colour scales, ",
+      "and the historical year axis scale_x_year_educabr()). ",
       "Drop the final ggplotly() line if you want a static ggplot instead.")),
     tags$pre(
       style = paste(
@@ -793,8 +801,8 @@ server <- function(input, output, session) {
     ) +
       ggplot2::geom_line(linewidth = 0.9, alpha = 0.9) +
       ggplot2::geom_point(size = 0.6, alpha = 0.6) +
-      ggplot2::scale_x_continuous(breaks = scales::pretty_breaks(10)) +
-      ggplot2::theme_minimal(base_size = 13) +
+      educabr2::scale_x_year_educabr(d$year) +
+      educabr2::theme_educabr(base_size = 13) +
       ggplot2::theme(legend.position = "bottom",
                      legend.title    = ggplot2::element_blank(),
                      panel.grid.minor = ggplot2::element_blank()) +
@@ -806,6 +814,10 @@ server <- function(input, output, session) {
           " — ", if (input$enr_geo_level == "BR") "Brazil" else "States"
         )
       )
+
+    # Okabe-Ito holds 8 colours; beyond that, fall back to ggplot's hues.
+    if (length(unique(d[[color_var]])) <= 8L)
+      g <- g + educabr2::scale_colour_educabr()
 
     if (has_alt) {
       g <- g + ggplot2::scale_linetype_manual(
@@ -997,7 +1009,7 @@ server <- function(input, output, session) {
         values = TER_MODALITY_LINETYPES,
         labels = modality_label_lookup
       ) +
-      ggplot2::theme_minimal(base_size = 13) +
+      educabr2::theme_educabr(base_size = 13) +
       ggplot2::theme(legend.position = "right",
                      legend.text     = ggplot2::element_text(size = 10),
                      legend.title    = ggplot2::element_text(size = 11, face = "bold"),
@@ -1098,8 +1110,8 @@ server <- function(input, output, session) {
     ) +
       ggplot2::geom_line(linewidth = 0.9, alpha = 0.9) +
       ggplot2::geom_point(size = 0.6, alpha = 0.6) +
-      ggplot2::scale_x_continuous(breaks = scales::pretty_breaks(10)) +
-      ggplot2::theme_minimal(base_size = 13) +
+      educabr2::scale_x_year_educabr(d$year) +
+      educabr2::theme_educabr(base_size = 13) +
       ggplot2::theme(legend.position = "bottom",
                      legend.title    = ggplot2::element_blank(),
                      panel.grid.minor = ggplot2::element_blank()) +
@@ -1113,6 +1125,10 @@ server <- function(input, output, session) {
                  UF     = "States")
         )
       )
+
+    # Okabe-Ito holds 8 colours; beyond that, fall back to ggplot's hues.
+    if (length(unique(d[[color_var]])) <= 8L)
+      g <- g + educabr2::scale_colour_educabr()
 
     if (input$sch_geo_level == "UF" && length(unique(d$geo_code)) > 1)
       g <- g + ggplot2::facet_wrap(~ geo_name, scales = "free_y")
@@ -1196,13 +1212,13 @@ server <- function(input, output, session) {
     ) +
       ggplot2::geom_line(linewidth = 0.95, alpha = 0.95) +
       ggplot2::geom_point(size = 0.7, alpha = 0.7) +
-      ggplot2::scale_x_continuous(breaks = scales::pretty_breaks(10)) +
+      educabr2::scale_x_year_educabr(d$year) +
       ggplot2::scale_colour_manual(
         name   = NULL,
         values = EXP_LEVEL_COLORS,
         labels = exp_level_lookup
       ) +
-      ggplot2::theme_minimal(base_size = 13) +
+      educabr2::theme_educabr(base_size = 13) +
       ggplot2::theme(legend.position = "bottom",
                      legend.title    = ggplot2::element_blank(),
                      panel.grid.minor = ggplot2::element_blank()) +
@@ -1279,9 +1295,9 @@ server <- function(input, output, session) {
     ) +
       ggplot2::geom_line(linewidth = 0.95, alpha = 0.9, na.rm = TRUE) +
       ggplot2::geom_point(size = 0.7, alpha = 0.7, na.rm = TRUE) +
-      ggplot2::scale_x_continuous(breaks = scales::pretty_breaks(10)) +
+      educabr2::scale_x_year_educabr(d$year) +
       ggplot2::scale_y_continuous(labels = function(x) sprintf("%.2f", x)) +
-      ggplot2::theme_minimal(base_size = 13) +
+      educabr2::theme_educabr(base_size = 13) +
       ggplot2::theme(legend.position = "bottom",
                      legend.title    = ggplot2::element_blank(),
                      panel.grid.minor = ggplot2::element_blank()) +
@@ -1292,6 +1308,10 @@ server <- function(input, output, session) {
           if (input$prog_geo_level == "BR") "Brazil" else "States"
         )
       )
+
+    # Okabe-Ito holds 8 colours; beyond that, fall back to ggplot's hues.
+    if (length(unique(d[[color_var]])) <= 8L)
+      g <- g + educabr2::scale_colour_educabr()
 
     plotly::ggplotly(g, tooltip = "text") |>
       plotly::layout(legend = list(orientation = "h", y = -0.15))
@@ -1380,11 +1400,11 @@ server <- function(input, output, session) {
       ggplot2::geom_line(linewidth = 0.9, alpha = 0.9) +
       ggplot2::geom_point(size = 0.9, alpha = 0.7) +
       ggplot2::scale_colour_manual(values = ATT_LEVEL_COLORS) +
-      ggplot2::scale_x_continuous(breaks = scales::pretty_breaks(10)) +
+      educabr2::scale_x_year_educabr(d$year) +
       ggplot2::scale_y_continuous(
         labels = function(x) paste0(round(x, 0), "%"),
         limits = c(0, 100)) +
-      ggplot2::theme_minimal(base_size = 13) +
+      educabr2::theme_educabr(base_size = 13) +
       ggplot2::theme(legend.position = "bottom",
                      legend.title    = ggplot2::element_blank(),
                      panel.grid.minor = ggplot2::element_blank()) +
@@ -1455,8 +1475,9 @@ server <- function(input, output, session) {
       "                      group  = interaction(", color_var, ", geo_code))) +\n",
       "  geom_line(linewidth = 0.9, alpha = 0.9) +\n",
       "  geom_point(size = 0.6, alpha = 0.6) +\n",
-      "  scale_x_continuous(breaks = scales::pretty_breaks(10)) +\n",
-      "  theme_minimal(base_size = 13) +\n",
+      "  scale_x_year_educabr(data$year) +\n",
+      "  scale_colour_educabr() +\n",
+      "  theme_educabr() +\n",
       "  labs(x = NULL, y = \"", y_lab, "\")\n\n",
       "ggplotly(p)\n"
     )
@@ -1492,9 +1513,9 @@ server <- function(input, output, session) {
       "                      group    = interaction(source, network, institution_type, modality))) +\n",
       "  geom_line(linewidth = 1) +\n",
       "  geom_point(size = 2.5) +\n",
-      "  scale_x_continuous(breaks = scales::pretty_breaks(12)) +\n",
+      "  scale_x_year_educabr(data$year) +\n",
       "  scale_y_continuous(labels = scales::label_number(big.mark = \",\")) +\n",
-      "  theme_minimal(base_size = 13) +\n",
+      "  theme_educabr() +\n",
       "  labs(x = NULL, y = \"Enrollment\",\n",
       "       title = \"Tertiary Education \\u2014 multi-source comparison\",\n",
       "       colour = NULL, shape = \"Source\", linetype = \"Modality\")\n\n",
@@ -1531,8 +1552,11 @@ server <- function(input, output, session) {
       "                      group  = interaction(", color_var, ", geo_code))) +\n",
       "  geom_line(linewidth = 0.9, alpha = 0.9) +\n",
       "  geom_point(size = 0.6, alpha = 0.6) +\n",
-      "  scale_x_continuous(breaks = scales::pretty_breaks(10)) +\n",
-      "  theme_minimal(base_size = 13) +\n",
+      "  scale_x_year_educabr(data$year) +\n",
+      if (input$sch_dimension %in% c("race", "sex"))
+        "  scale_colour_educabr() +\n"
+      else "",
+      "  theme_educabr() +\n",
       "  labs(x = NULL, y = \"Mean years of schooling\")",
       if (input$sch_geo_level == "UF" && length(geo_arg) > 1L)
         " +\n  facet_wrap(~ geo_name, scales = \"free_y\")"
@@ -1565,8 +1589,9 @@ server <- function(input, output, session) {
       "                      group  = level)) +\n",
       "  geom_line(linewidth = 0.95) +\n",
       "  geom_point(size = 0.7) +\n",
-      "  scale_x_continuous(breaks = scales::pretty_breaks(10)) +\n",
-      "  theme_minimal(base_size = 13) +\n",
+      "  scale_x_year_educabr(data$year) +\n",
+      "  scale_colour_educabr() +\n",
+      "  theme_educabr() +\n",
       "  labs(x = NULL, y = \"", y_lab, "\",\n",
       "       title = \"Public Expenditure on Education \\u2014 Brazil\")\n\n",
       "ggplotly(p)\n"
@@ -1595,8 +1620,11 @@ server <- function(input, output, session) {
       "                      group  = ", color_var, ")) +\n",
       "  geom_line(linewidth = 0.95) +\n",
       "  geom_point(size = 0.7) +\n",
-      "  scale_x_continuous(breaks = scales::pretty_breaks(10)) +\n",
-      "  theme_minimal(base_size = 13) +\n",
+      "  scale_x_year_educabr(data$year) +\n",
+      if (input$prog_geo_level == "BR" || length(geo_arg) <= 8L)
+        "  scale_colour_educabr() +\n"
+      else "",
+      "  theme_educabr() +\n",
       "  labs(x = NULL, y = \"GDR6 (ratio)\",\n",
       "       title = \"Grade-progression ratio GDR6 \\u2014 Brazil/UFs\")\n\n",
       "ggplotly(p)\n"
@@ -1639,10 +1667,11 @@ server <- function(input, output, session) {
       aes_block,
       "  geom_line(linewidth = 0.9) +\n",
       "  geom_point(size = 0.9) +\n",
-      "  scale_x_continuous(breaks = scales::pretty_breaks(10)) +\n",
+      "  scale_x_year_educabr(data$year) +\n",
       "  scale_y_continuous(labels = function(x) paste0(x, \"%\"),\n",
       "                     limits = c(0, 100)) +\n",
-      "  theme_minimal(base_size = 13) +\n",
+      "  scale_colour_educabr() +\n",
+      "  theme_educabr() +\n",
       "  labs(x = NULL, y = \"Share completed (% of pop. aged 15\\u201364)\",\n",
       "       title = \"Educational attainment \\u2014 Lee & Lee (2016)\")",
       facet_line,

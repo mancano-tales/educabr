@@ -24,7 +24,9 @@
 #'   Race and sub-national breakdowns are only available at `geo_level =
 #'   "BR"`.
 #' @param source Character vector of source keys. `NULL` returns all
-#'   available sources (currently only `"walter_kang_2023"`).
+#'   available sources (currently only `"walter_kang_2023"`). The alias
+#'   `"walter_kang_2024"` (year of the peer-reviewed article) is accepted
+#'   and resolves to the same source.
 #' @param wide Logical. If `TRUE`, pivots the result to wide form. For
 #'   this indicator the effect is minimal (only one indicator column),
 #'   but the parameter is provided for API consistency with
@@ -148,7 +150,7 @@ get_schooling <- function(year      = NULL,
   }
 
   if (!is.null(source)) {
-    data <- data[data$source %in% as.character(source), , drop = FALSE]
+    data <- data[data$source %in% .normalise_source_keys(source), , drop = FALSE]
   }
 
   data

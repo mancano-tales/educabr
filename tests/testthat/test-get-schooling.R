@@ -104,6 +104,24 @@ test_that("lang='pt' translates dim_sex and dim_race", {
   })
 })
 
+test_that("source filter accepts both walter_kang_2023 and the 2024 alias", {
+  with_sch_fixture({
+    legacy <- get_schooling(source = "walter_kang_2023")
+    alias  <- get_schooling(source = "walter_kang_2024")
+    expect_identical(alias, legacy)
+    expect_gt(nrow(alias), 0L)
+  })
+})
+
+test_that(".normalise_source_keys maps aliases and passes others through", {
+  norm <- educabr2:::.normalise_source_keys
+  expect_null(norm(NULL))
+  expect_identical(norm("walter_kang_2024"), "walter_kang_2023")
+  expect_identical(norm(c("walter_kang_2024", "walter_kang_2023")),
+                   "walter_kang_2023")
+  expect_identical(norm("kang_paese_felix_2021"), "kang_paese_felix_2021")
+})
+
 test_that(".load_schooling_panel errors with friendly message when nothing built", {
   empty_env <- new.env(parent = emptyenv())
   expect_error(

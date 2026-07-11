@@ -5,6 +5,31 @@ grade-progression). No breaking changes to existing `get_*()`
 signatures or to `enrollment_kang_fgv` / `schooling_kang_fgv`
 contents.
 
+## Visualization system (2026-07-11)
+
+* New exported scale `scale_x_year_educabr()` — a year-axis scale for
+  the century-long historical series that are the norm in the package.
+  Break spacing follows the span of the data plotted (every 20 years
+  beyond six decades, every 10 years for spans of 25–60 years,
+  `pretty()` breaks below that); the first and last year present in
+  the series are always labelled, and grid breaks that would collide
+  with those extremes are dropped (tolerance proportional to the span).
+* The Shiny dashboard (live charts and the "View R code" snippets) now
+  uses the package's own visualization system — `theme_educabr()`,
+  `scale_colour_educabr()` (Okabe-Ito, applied where the colour
+  dimension has at most 8 levels), and `scale_x_year_educabr()` —
+  instead of `theme_minimal()` and generic pretty breaks.
+
+## Source-key aliases (2026-07-11)
+
+* `walter_kang_2024` is now accepted everywhere `walter_kang_2023` is
+  (all `get_*()` source filters and `educabr_cite()`), resolving to the
+  same source. The peer-reviewed article is Walter & Kang (2024,
+  *Economic History of Developing Regions*); the legacy `2023` key —
+  minted when the source was still an FGV-IBRE working paper — remains
+  the key carried by the data until the physical rename planned in
+  `planning/cran-checklist.md`.
+
 ## CI / build
 
 * Renamed vignettes from `01-introduction.Rmd` / `02-introducao-pt.Rmd`

@@ -163,7 +163,7 @@ get_attainment <- function(level     = NULL,
   }
 
   if (!is.null(source)) {
-    data <- data[data$source %in% as.character(source), , drop = FALSE]
+    data <- data[data$source %in% .normalise_source_keys(source), , drop = FALSE]
   }
 
   data
