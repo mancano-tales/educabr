@@ -170,7 +170,10 @@ src[grepl("UF", src$geo), c("key", "year_start", "year_end")]
 educabr2::run_dashboard()
 ```
 
-Six navbar tabs:
+A curated **Overview** tab — four fixed story charts for broad
+audiences (secular expansion, public × private with the 1997/2005
+regulatory landmarks, the rise of EAD, the gender reversal in
+schooling) — plus six thematic tabs:
 
 * **Enrollment** — Kang/FGV series by stage, year, race
 * **Tertiary Education** — multi-source comparison 1907–2024

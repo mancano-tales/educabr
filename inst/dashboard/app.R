@@ -1,6 +1,7 @@
-# educabr2 dashboard — v0.5
+# educabr2 dashboard — v0.6
 #
-# Six-tab navbar (UI in English):
+# Navbar (UI in English): a curated Overview tab (lay-audience entry point,
+# four fixed story charts) plus six thematic tabs:
 #   * Enrollment (Kang fundamental/medio/superior)
 #   * Tertiary Education (multi-source comparison, 1907-2024)
 #   * Educational Attainment (Walter & Kang mean years of schooling)
@@ -395,13 +396,110 @@ sources_card_ui <- function(source_keys, yaml_path) {
 
 `%||%` <- function(a, b) if (is.null(a) || length(a) == 0) b else a
 
+# ---- Overview tab: curated story charts (computed once at app start) --
+#
+# The Overview tab is the lay-audience entry point: four fixed charts, one
+# finding each, active titles, direct labels, no controls (Healy: title
+# states the finding; label lines directly; annotate sparingly). The
+# exploratory apparatus lives in the six thematic tabs.
+
+OV_PREC <- c(inep_microdados_censup = 1, inep_sinopse_censup = 2,
+             kang_paese_felix_2021 = 3, maduro_junior_2007 = 4,
+             durham_2005 = 5, ibge_seculo_xx = 6)
+
+ov_splice <- function(df) {
+  df <- df[df$source %in% names(OV_PREC), ]
+  df$prec <- OV_PREC[df$source]
+  df <- df[order(df$year, df$prec), ]
+  df[!duplicated(df$year), ]
+}
+
+OV_TOTAL <- ov_splice(educabr2::get_enrollment(
+  level = "superior", network = "total", institution_type = "total",
+  modality = "total", indicator = "count", lang = "en"))
+
+OV_NET <- do.call(rbind, lapply(c("publica", "privada"), function(nw) {
+  d <- ov_splice(educabr2::get_enrollment(
+    level = "superior", network = nw, institution_type = "total",
+    modality = "total", indicator = "count", lang = "en"))
+  d$net <- nw
+  d
+}))
+
+# EAD share of total enrollment: INEP synopsis 2000-2008 + microdata 2009-2024
+.ov_ead_share <- local({
+  agg <- function(src, years) {
+    d <- educabr2::get_enrollment(level = "superior", network = "total",
+                                  institution_type = "total",
+                                  indicator = "count", source = src, lang = "en")
+    d <- d[d$modality %in% c("ead", "presencial") & d$year >= years[1] & d$year <= years[2], ]
+    tot <- tapply(d$value, d$year, sum)
+    ead <- tapply(d$value[d$modality == "ead"], d$year[d$modality == "ead"], sum)
+    yrs <- intersect(names(tot), names(ead))
+    data.frame(year = as.integer(yrs), share = as.numeric(ead[yrs] / tot[yrs]))
+  }
+  rbind(agg("inep_sinopse_censup", c(2000, 2008)),
+        agg("inep_microdados_censup", c(2009, 2024)))
+})
+
+OV_SCH <- local({
+  d <- educabr2::get_schooling(geo_level = "BR", dimension = "sex", lang = "en")
+  w <- reshape(as.data.frame(d[, c("year", "dim_sex", "value")]),
+               idvar = "year", timevar = "dim_sex", direction = "wide")
+  names(w) <- sub("^value\\.", "", names(w))
+  w[order(w$year), ]
+})
+
+ov_card <- function(title, subtitle, plot_id, source_txt) {
+  bslib::card(
+    bslib::card_header(
+      tags$div(tags$strong(title),
+               tags$div(class = "text-muted small", subtitle))
+    ),
+    shiny::plotOutput(plot_id, height = "320px"),
+    bslib::card_footer(tags$small(class = "text-muted", source_txt))
+  )
+}
+
 # ---- UI --------------------------------------------------------------
 
 ui <- bslib::page_navbar(
   title           = "educabr2 — Brazilian Education",
   theme           = bslib::bs_theme(version = 5),
   navbar_options  = bslib::navbar_options(bg = "#2d6a4f"),
-  selected        = "Tertiary Education",  # opens here on first load
+  selected        = "Overview",  # curated lay-audience entry point
+
+  # ---- Overview (curated story charts, no controls) ----
+  bslib::nav_panel(
+    title = "Overview",
+    tags$div(
+      class = "container py-4",
+      tags$h4(tags$strong("A century of Brazilian higher education, in four charts")),
+      tags$p(class = "text-muted",
+             "A curated tour of the harmonized data. For filters, tables,",
+             " downloads and reproducible R code, open the thematic tabs",
+             " above — every chart there has a \"View R code\" button."),
+      bslib::layout_column_wrap(
+        width = 1 / 2, heights_equal = "row",
+        ov_card("From three thousand to ten million students",
+                "Total tertiary enrollment, 1908–2024, spliced from nine sources",
+                "ov_expansion",
+                "Source: IBGE, Durham, Maduro Jr., Kang et al., INEP — via educabr2."),
+        ov_card("Four of every five students study in private institutions",
+                "Enrollment by administrative network, with the 1997 and 2005 regulatory landmarks",
+                "ov_network",
+                "Source: IBGE, Durham, Maduro Jr., Kang et al., INEP — via educabr2."),
+        ov_card("Distance education became the majority in 2024",
+                "EAD share of total tertiary enrollment, 2000–2024",
+                "ov_ead",
+                "Source: INEP CENSUP (synopsis and microdata) — via educabr2."),
+        ov_card("Women overtook men in schooling in 1983 — and kept the lead",
+                "Mean years of schooling, population aged 15–64, 1925–2015",
+                "ov_gender",
+                "Source: Walter & Kang (2024) — via educabr2.")
+      )
+    )
+  ),
 
   # ---- Enrollment ----
   bslib::nav_panel(
@@ -720,6 +818,7 @@ ui <- bslib::page_navbar(
              " tidy schema with explicit provenance."),
       tags$p("Themes available in this dashboard:"),
       tags$ul(
+        tags$li(tags$strong("Overview"), " — a curated, no-controls entry point: four story charts summarizing a century of Brazilian higher education (secular expansion, public vs. private networks with the 1997/2005 regulatory landmarks, the rise of distance education, and the gender reversal in schooling)."),
         tags$li(tags$strong("Enrollment"), " — enrollment counts and gross rates by level, race and state (1871–2010, Kang/FGV-IBRE)."),
         tags$li(tags$strong("Tertiary Education"), " — higher-education enrollment 1907–2024, multi-source compilation (IBGE 20th-Century Statistics, Durham, Maduro Junior, Kang et al., INEP Synopsis, INEP Microdata, INEP Power BI). Lets you compare estimates from different sources side by side."),
         tags$li(tags$strong("Educational Attainment"), " — mean years of schooling by sex, race and state (1925–2015, Walter & Kang)."),
@@ -758,6 +857,115 @@ ui <- bslib::page_navbar(
 server <- function(input, output, session) {
 
   sources_path <- system.file("dict/vocabularies/sources.yaml", package = "educabr2")
+
+  # -- Overview story charts -------------------------------------------
+
+  output$ov_expansion <- shiny::renderPlot({
+    d <- OV_TOTAL
+    fim <- d[nrow(d), ]
+    ggplot2::ggplot(d, ggplot2::aes(year, value)) +
+      ggplot2::geom_area(fill = "#0072B2", alpha = 0.18) +
+      ggplot2::geom_line(colour = "#0072B2", linewidth = 1.1) +
+      ggplot2::annotate("point", x = fim$year, y = fim$value,
+                        colour = "#0072B2", size = 2.6) +
+      ggplot2::annotate("text", x = fim$year - 2, y = fim$value,
+                        label = sprintf("%.1f million\n(%d)", fim$value / 1e6, fim$year),
+                        hjust = 1, vjust = 0.9, size = 4.4, colour = "#0072B2",
+                        lineheight = 0.95) +
+      ggplot2::annotate("text", x = d$year[1] + 2, y = 6e5,
+                        label = sprintf("~%s students\nin %d",
+                                        format(round(d$value[1], -2), big.mark = ","),
+                                        d$year[1]),
+                        hjust = 0, size = 3.6, colour = "grey35", lineheight = 0.95) +
+      educabr2::scale_x_year_educabr(d$year) +
+      ggplot2::scale_y_continuous(
+        labels = function(x) ifelse(x == 0, "0", paste0(x / 1e6, "M"))) +
+      educabr2::theme_educabr(base_size = 14, plot_titles = FALSE) +
+      ggplot2::labs(x = NULL, y = NULL)
+  }, res = 96)
+
+  output$ov_network <- shiny::renderPlot({
+    d <- OV_NET
+    fim_priv <- d[d$net == "privada" & d$year == max(d$year[d$net == "privada"]), ]
+    fim_pub  <- d[d$net == "publica" & d$year == max(d$year[d$net == "publica"]), ]
+    ggplot2::ggplot(d, ggplot2::aes(year, value, colour = net, group = net)) +
+      ggplot2::geom_vline(xintercept = c(1997, 2005),
+                          linetype = "dashed", colour = "grey55", linewidth = 0.4) +
+      ggplot2::annotate("text", x = 1995.5, y = 6.9e6,
+                        label = "1997: for-profit\nHEIs regulated", hjust = 1,
+                        size = 3.3, colour = "grey35", lineheight = 0.95) +
+      ggplot2::annotate("text", x = 2006.5, y = 5.6e6,
+                        label = "2005: ProUni;\nnew EAD framework", hjust = 0,
+                        size = 3.3, colour = "grey35", lineheight = 0.95) +
+      ggplot2::geom_line(linewidth = 1.1) +
+      ggplot2::scale_colour_manual(
+        values = c(publica = "#0072B2", privada = "#D55E00"), guide = "none") +
+      ggplot2::annotate("text", x = fim_priv$year + 1, y = fim_priv$value,
+                        label = sprintf("Private\n%.1fM", fim_priv$value / 1e6),
+                        hjust = 0, size = 3.8, colour = "#D55E00", lineheight = 0.95) +
+      ggplot2::annotate("text", x = fim_pub$year + 1, y = fim_pub$value,
+                        label = sprintf("Public\n%.1fM", fim_pub$value / 1e6),
+                        hjust = 0, size = 3.8, colour = "#0072B2", lineheight = 0.95) +
+      educabr2::scale_x_year_educabr(d$year,
+                                     expand = ggplot2::expansion(mult = c(0.03, 0.14))) +
+      ggplot2::scale_y_continuous(
+        labels = function(x) ifelse(x == 0, "0", paste0(x / 1e6, "M"))) +
+      educabr2::theme_educabr(base_size = 14, plot_titles = FALSE) +
+      ggplot2::labs(x = NULL, y = NULL)
+  }, res = 96)
+
+  output$ov_ead <- shiny::renderPlot({
+    d <- .ov_ead_share
+    fim <- d[nrow(d), ]
+    ggplot2::ggplot(d, ggplot2::aes(year, share)) +
+      ggplot2::geom_hline(yintercept = 0.5, linetype = "dotted", colour = "grey45") +
+      ggplot2::annotate("text", x = 2001, y = 0.53, label = "Half of all enrollment",
+                        hjust = 0, size = 3.4, colour = "grey45") +
+      ggplot2::geom_vline(xintercept = 2005, linetype = "dashed",
+                          colour = "grey55", linewidth = 0.4) +
+      ggplot2::annotate("text", x = 2005.7, y = 0.33,
+                        label = "2005: EAD\naccreditation\ndecree", hjust = 0,
+                        size = 3.2, colour = "grey35", lineheight = 0.95) +
+      ggplot2::geom_area(fill = "#E69F00", alpha = 0.30) +
+      ggplot2::geom_line(colour = "#E69F00", linewidth = 1.2) +
+      ggplot2::annotate("point", x = fim$year, y = fim$share,
+                        colour = "#B07800", size = 2.6) +
+      ggplot2::annotate("text", x = fim$year - 0.6, y = fim$share + 0.045,
+                        label = sprintf("%.0f%% (%d)", fim$share * 100, fim$year),
+                        hjust = 1, size = 4.2, colour = "#B07800") +
+      educabr2::scale_x_year_educabr(d$year) +
+      ggplot2::scale_y_continuous(labels = function(x) paste0(x * 100, "%"),
+                                  limits = c(0, 0.60)) +
+      educabr2::theme_educabr(base_size = 14, plot_titles = FALSE) +
+      ggplot2::labs(x = NULL, y = NULL)
+  }, res = 96)
+
+  output$ov_gender <- shiny::renderPlot({
+    w <- OV_SCH
+    cruz <- min(w$year[w$female > w$male], na.rm = TRUE)
+    vcruz <- w$female[w$year == cruz]
+    fim <- w[nrow(w), ]
+    ggplot2::ggplot(w, ggplot2::aes(x = year)) +
+      ggplot2::geom_ribbon(ggplot2::aes(ymin = pmin(female, male),
+                                        ymax = pmax(female, male),
+                                        fill = female > male),
+                           alpha = 0.20, show.legend = FALSE) +
+      ggplot2::scale_fill_manual(values = c(`TRUE` = "#E69F00", `FALSE` = "#56B4E9")) +
+      ggplot2::geom_line(ggplot2::aes(y = female), colour = "#E69F00", linewidth = 1.1) +
+      ggplot2::geom_line(ggplot2::aes(y = male), colour = "#56B4E9", linewidth = 1.1) +
+      ggplot2::annotate("point", x = cruz, y = vcruz, size = 2.6, colour = "grey25") +
+      ggplot2::annotate("text", x = cruz - 2, y = vcruz + 1,
+                        label = sprintf("Women overtake men (%d)", cruz),
+                        hjust = 1, size = 3.6, colour = "grey25") +
+      ggplot2::annotate("text", x = fim$year + 1.5, y = fim$female, label = "Women",
+                        hjust = 0, size = 3.8, colour = "#E69F00") +
+      ggplot2::annotate("text", x = fim$year + 1.5, y = fim$male - 0.15, label = "Men",
+                        hjust = 0, size = 3.8, colour = "#56B4E9") +
+      educabr2::scale_x_year_educabr(w$year,
+                                     expand = ggplot2::expansion(mult = c(0.03, 0.12))) +
+      educabr2::theme_educabr(base_size = 14, plot_titles = FALSE) +
+      ggplot2::labs(x = NULL, y = "Years of schooling")
+  }, res = 96)
 
   # -- enrollment reactives --------------------------------------------
 

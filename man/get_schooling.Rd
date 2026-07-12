@@ -58,11 +58,13 @@ columns are omitted (not applicable to population-level attainment
 averages).
 }
 \description{
-Returns harmonized series of average years of schooling at the
-national, macro-region, or state level, optionally broken down by
-color/race or sex. The bundled data comes from Walter & Kang (2023),
-a FGV-IBRE working paper that reconstructs the series from 1925 to
-2015.
+Returns harmonized series of average years of schooling of the
+population aged 15 to 64, at the national, macro-region, or state
+level, optionally broken down by color/race or sex. The bundled data
+comes from Walter & Kang (2024, Economic History of Developing
+Regions; first circulated as a 2023 FGV-IBRE working paper), which
+reconstructs the series from 1925 to 2015 (states and regions from
+1950).
 }
 \examples{
 # National series, all years

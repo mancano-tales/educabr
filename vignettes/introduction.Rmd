@@ -311,9 +311,11 @@ ggplot(df, aes(year, value, colour = dim_sex)) +
 
 ## Interactive dashboard
 
-The package ships a Shiny dashboard with **six tabs** — one per
-theme (Enrollment, Tertiary Education, Educational Attainment,
-Public Expenditure, Grade Progression, International Comparison):
+The package ships a Shiny dashboard with a curated **Overview** tab
+(four story charts for non-technical audiences) plus **six thematic
+tabs** — one per theme (Enrollment, Tertiary Education, Educational
+Attainment, Public Expenditure, Grade Progression, International
+Comparison):
 
 ```r
 educabr2::run_dashboard()

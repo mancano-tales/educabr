@@ -39,10 +39,11 @@ ETL script: \verb{data-raw/02_build_schooling_kang_fgv.R}.
 schooling_kang_fgv
 }
 \description{
-Long-run Brazilian mean years of schooling reconstructed by Walter &
-Kang (2023) from Censuses and household surveys. The dataset is the
-internal backing store consumed by \code{\link[=get_schooling]{get_schooling()}}; end-users
-should call that function rather than loading this object directly.
+Long-run Brazilian mean years of schooling of the population aged 15
+to 64, reconstructed by Walter & Kang (2024) from Censuses and
+household surveys. The dataset is the internal backing store consumed
+by \code{\link[=get_schooling]{get_schooling()}}; end-users should call that function rather than
+loading this object directly.
 }
 \section{Coverage}{
 

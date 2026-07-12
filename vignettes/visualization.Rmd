@@ -64,7 +64,7 @@ ggplot(df, aes(year, value, colour = dim_sex)) +
   labs(
     x = NULL, y = "Mean years of schooling",
     title    = "The gender gap in schooling reversed over the 20th century",
-    subtitle = "Brazil, population aged 25+, 1925-2015 (Walter & Kang 2024)"
+    subtitle = "Brazil, population aged 15-64, 1925-2015 (Walter & Kang 2024)"
   )
 ```
 

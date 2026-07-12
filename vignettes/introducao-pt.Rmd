@@ -312,9 +312,11 @@ ggplot(df, aes(year, value, colour = dim_sex)) +
 
 ## Painel interativo
 
-O pacote acompanha um painel Shiny com **seis abas** — uma por
-tema (Enrollment, Tertiary Education, Educational Attainment,
-Public Expenditure, Grade Progression, International Comparison):
+O pacote acompanha um painel Shiny com uma aba **Overview** curada
+(quatro gráficos-história para público não técnico) e **seis abas
+temáticas** — uma por tema (Enrollment, Tertiary Education,
+Educational Attainment, Public Expenditure, Grade Progression,
+International Comparison):
 
 ```r
 educabr2::run_dashboard()
