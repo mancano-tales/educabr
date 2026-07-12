@@ -6,6 +6,22 @@ CRAN-readiness polish plus two new themes (public expenditure and
 grade-progression). No breaking changes to existing `get_*()` signatures
 or to `enrollment_kang_fgv` / `schooling_kang_fgv` contents.
 
+### Overview tab and documentation corrections (2026-07-12)
+
+- New curated **Overview** tab in the Shiny dashboard, now the landing
+  tab: four fixed story charts for non-technical audiences (secular
+  expansion 1908-2024; public vs. private networks with the 1997/2005
+  regulatory landmarks annotated; the EAD share reaching majority in
+  2024; the 1983 gender reversal in schooling), with active titles,
+  direct line labels, and no controls. The exploratory apparatus remains
+  in the six thematic tabs.
+- Documentation correction (fact-checked against Walter & Kang 2024,
+  Economic History of Developing Regions): the mean-years-of-schooling
+  series refers to the population **aged 15 to 64** (not 25+);
+  [`get_schooling()`](https://mancano-tales.github.io/educabr2/reference/get_schooling.md)
+  and `schooling_kang_fgv` docs updated, and the state/region coverage
+  (1950-2015) made explicit.
+
 ### CI and documentation convergence (2026-07-11, second round)
 
 - Fixed the failing CI: `showtext` and `sysfonts` (used conditionally by

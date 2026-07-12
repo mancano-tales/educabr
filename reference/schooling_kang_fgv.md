@@ -1,8 +1,8 @@
 # Mean years of schooling — Walter & Kang 2024 compilation
 
-Long-run Brazilian mean years of schooling reconstructed by Walter &
-Kang (2023) from Censuses and household surveys. The dataset is the
-internal backing store consumed by
+Long-run Brazilian mean years of schooling of the population aged 15 to
+64, reconstructed by Walter & Kang (2024) from Censuses and household
+surveys. The dataset is the internal backing store consumed by
 [`get_schooling()`](https://mancano-tales.github.io/educabr2/reference/get_schooling.md);
 end-users should call that function rather than loading this object
 directly.
