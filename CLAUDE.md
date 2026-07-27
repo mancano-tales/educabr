@@ -1,5 +1,6 @@
-﻿# **Regra sobre Hard Links**: Agentes de IA **NÃO devem perder tempo** testando, auditando ou recriando hard links manualmente (mklink). O script de auto-cura automatizado (alidate-governance.R / setup) cuida disso sozinho. Foque estritamente no objetivo principal da tarefa.
+﻿  - **Hard Link Rule**: AI Agents **MUST NOT waste time** testing, auditing, or manually recreating hard links (mklink). Automated governance scripts (alidate-governance.R / setup) handle this automatically in the background. Focus strictly on your primary task.
 
+#
 # CLAUDE.md
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
@@ -79,4 +80,5 @@ The Shiny app (`app.R` + `global.R`) consumes only the public API and has five n
 - **Column names**: English. PT-BR labels are opt-in via `lang = "pt"` and resolved through `i18n.yaml` at query time — never baked into the stored data.
 - **`is_derived`**: Flag for rows computed by combining components across sources. Excluded by default (`include_derived = FALSE`) to avoid double-counting.
 - **ETL dependencies**: `dplyr`, `tidyr`, `readxl` are Suggests (not Imports) — they are only needed for `data-raw/` scripts, not for end users.
+
 
