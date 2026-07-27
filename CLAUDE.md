@@ -1,3 +1,5 @@
+# Regra sobre Hard Links: Agentes de IA NÃO devem perder tempo testando, auditando ou recriando hard links manualmente (mklink). O script de auto-cura automatizado (alidate-governance.R / setup) cuida disso sozinho. Foque estritamente no objetivo principal da tarefa.
+
 # CLAUDE.md
 
 This file provides guidance to Claude Code (claude.ai/code) when working
