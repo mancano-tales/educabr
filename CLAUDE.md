@@ -1,4 +1,9 @@
-# Regra sobre Hard Links: Agentes de IA NÃO devem perder tempo testando, auditando ou recriando hard links manualmente (mklink). O script de auto-cura automatizado (alidate-governance.R / setup) cuida disso sozinho. Foque estritamente no objetivo principal da tarefa.
+# 
+
+- **Hard Link Rule**: AI Agents **MUST NOT waste time** testing,
+  auditing, or manually recreating hard links (mklink). Automated
+  governance scripts (alidate-governance.R / setup) handle this
+  automatically in the background. Focus strictly on your primary task.
 
 # CLAUDE.md
 
